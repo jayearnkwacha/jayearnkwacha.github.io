@@ -649,13 +649,13 @@
                 <button class="btn-task" id="watchAdsBtn" onclick="watchAdsTask(this)">Watch</button>
             </div>
 
-            <!-- YouTube Video Tasks Placement Info Elements -->
+            <!-- YouTube Video Task -->
             <div class="task-row">
                 <div class="task-info">
                     <h4>Watch YouTube - 10 Points</h4>
-                    <p>0/10 today</p>
+                    <p id="ytCount">0/5 today</p>
                 </div>
-                <button class="btn-task" onclick="alert('YouTube tasks module loading...')">Watch</button>
+                <button class="btn-task" id="youtubeTaskBtn" onclick="watchYoutubeTask(this, YOUTUBE_TASK_URL)">Watch</button>
             </div>
 
             <!-- Spin and Win Elements Row Block -->
@@ -902,64 +902,93 @@
 
 
     <script>
-        // --- 1. CONFIGURATION CONFIG & STATE CAPTURING MANAGEMENT ---
-        // Monetag dynamic direct ads redirection tracking URL collection list endpoints
-        const DIRECT_LINKS = [
-            "https://omg10.com/4/11749878", "https://omg10.com/4/11749878", "https://omg10.com/4/11749878",
-            "https://omg10.com/4/11749878", "https://omg10.com/4/11749878", "https://omg10.com/4/11749878",
-            "https://omg10.com/4/11749878", "https://omg10.com/4/11749878", "https://omg10.com/4/11749878",
-            "https://omg10.com/4/11749878", "https://omg10.com/4/11749878", "https://omg10.com/4/11749878",
-            "https://omg10.com/4/11749878", "https://omg10.com/4/11749878", "https://omg10.com/4/11749878"
-        ];
+        // --- 1. CONFIGURATION & STATE ---
+        // Monetag Direct Link supplied for the Watch Ads task.
+        const DIRECT_LINKS = ["https://omg10.com/4/11749878"];
         let linkIndex = 0;
-        
-        // Runtime Session Context State Metrics
-        const STORAGE_KEY = "earnKwaChaState_v5";
+        const adIntervals = {};
+
+        // Change this to the YouTube video you want users to watch.
+        const YOUTUBE_TASK_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+        const STORAGE_KEY = "earnKwaChaState_v6";
         const WITHDRAWALS_KEY = "earnKwaChaWithdrawals_v1";
+        const MAX_DAILY_ADS_LIMIT = 15;
+        const YOUTUBE_DAILY_LIMIT = 5;
+        const AD_REWARD_POINTS = 8;
+        const YOUTUBE_REWARD_POINTS = 10;
+        const SPIN_REWARDS = [5, 0, 2, 4, 1, 3];
+
         let currentBalancePoints = 0;
         let dailyAdsWatchedCount = 0;
         let dailySpinUsed = false;
+        let watchedVideosToday = [];
         let stateDate = new Date().toISOString().slice(0, 10);
-        const MAX_DAILY_ADS_LIMIT = 15;
-        const SPIN_REWARDS = [5, 0, 2, 4, 1, 3];
+        let currentUserData = null;
         let isUserLoggedInMock = false;
         let wheelRotation = 0;
         let selectedWheelReward = null;
 
+        function syncCurrentUserData() {
+            currentUserData = {
+                points: currentBalancePoints,
+                adsWatchedToday: dailyAdsWatchedCount,
+                watchedVideosToday: Array.isArray(watchedVideosToday) ? watchedVideosToday : []
+            };
+        }
+
         function loadState() {
             try {
                 const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-                if (saved) {
+                const today = new Date().toISOString().slice(0, 10);
+                if (saved && saved.date === today) {
                     currentBalancePoints = Number(saved.balance) || 0;
-                    stateDate = saved.date || stateDate;
-                    if (stateDate !== new Date().toISOString().slice(0, 10)) {
-                        dailyAdsWatchedCount = 0;
-                        dailySpinUsed = false;
-                        stateDate = new Date().toISOString().slice(0, 10);
-                    } else {
-                        dailyAdsWatchedCount = Number(saved.adsWatched) || 0;
-                        dailySpinUsed = !!saved.spinUsed;
-                    }
+                    dailyAdsWatchedCount = Number(saved.adsWatched) || 0;
+                    dailySpinUsed = !!saved.spinUsed;
+                    watchedVideosToday = Array.isArray(saved.watchedVideosToday) ? saved.watchedVideosToday : [];
+                    stateDate = today;
+                } else {
+                    currentBalancePoints = saved ? (Number(saved.balance) || 0) : 0;
+                    dailyAdsWatchedCount = 0;
+                    dailySpinUsed = false;
+                    watchedVideosToday = [];
+                    stateDate = today;
                 }
             } catch (e) {
                 console.warn("Could not load saved account state.", e);
+                currentBalancePoints = 0;
+                dailyAdsWatchedCount = 0;
+                dailySpinUsed = false;
+                watchedVideosToday = [];
             }
+            syncCurrentUserData();
             updateBalanceUI();
             updateTaskUI();
+            loadLimits();
             saveState();
             renderUserHistory();
             renderAdminWithdrawals();
         }
 
         function saveState() {
+            syncCurrentUserData();
             localStorage.setItem(STORAGE_KEY, JSON.stringify({
                 balance: currentBalancePoints,
                 adsWatched: dailyAdsWatchedCount,
                 spinUsed: dailySpinUsed,
+                watchedVideosToday: watchedVideosToday,
                 date: stateDate
             }));
         }
 
+        // ========== LOAD COUNTERS ==========
+        function loadLimits() {
+            if (!currentUserData) return;
+            const adsCount = document.getElementById("adsCount");
+            const ytCount = document.getElementById("ytCount");
+            if (adsCount) adsCount.innerText = `${currentUserData.adsWatchedToday || 0}/${MAX_DAILY_ADS_LIMIT}`;
+            if (ytCount) ytCount.innerText = `${(currentUserData.watchedVideosToday || []).length}/${YOUTUBE_DAILY_LIMIT} today`;
+        }
 
         function getWithdrawals() {
             try { return JSON.parse(localStorage.getItem(WITHDRAWALS_KEY) || "[]"); }
@@ -1090,8 +1119,14 @@
         }
 
         function updateTaskUI() {
-            document.getElementById('ads-counter-text').innerText =
-                `${dailyAdsWatchedCount}/${MAX_DAILY_ADS_LIMIT} today`;
+            const adsCounter = document.getElementById('ads-counter-text');
+            const adsButton = document.getElementById('watchAdsBtn');
+            if (adsCounter) adsCounter.innerText = `${dailyAdsWatchedCount}/${MAX_DAILY_ADS_LIMIT} today`;
+            if (adsButton && !adsButton.dataset.busy) {
+                adsButton.disabled = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT;
+                adsButton.innerText = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT ? "Done" : "Watch";
+            }
+
             const spinCounter = document.getElementById('spin-counter-text');
             const spinBtn = document.getElementById('spinBtn');
             if (spinCounter) spinCounter.innerText = dailySpinUsed ? "1/1 today" : "0/1 today";
@@ -1099,6 +1134,16 @@
                 spinBtn.disabled = dailySpinUsed;
                 spinBtn.innerText = dailySpinUsed ? "Done" : "Spin";
             }
+
+            const ytCounter = document.getElementById('ytCount');
+            const ytButton = document.getElementById('youtubeTaskBtn');
+            const ytWatched = watchedVideosToday.length;
+            if (ytCounter) ytCounter.innerText = `${ytWatched}/${YOUTUBE_DAILY_LIMIT} today`;
+            if (ytButton && !ytButton.dataset.busy) {
+                ytButton.disabled = ytWatched >= YOUTUBE_DAILY_LIMIT || watchedVideosToday.includes(YOUTUBE_TASK_URL);
+                ytButton.innerText = watchedVideosToday.includes(YOUTUBE_TASK_URL) ? "Watched" : (ytWatched >= YOUTUBE_DAILY_LIMIT ? "Done" : "Watch");
+            }
+            loadLimits();
         }
 
         // --- 2. THEME AND INTERFACE INITIALIZATION CONFIG ---
@@ -1129,57 +1174,140 @@
             document.getElementById(modalId).classList.remove('active');
         }
 
-        // --- 4. INTEGRATED MONETAG DIRECT LINKS ADS COUNTDOWN TASK OPERATION ENGINE ---
-        function openAdWindowInstance() {
-            window.open(DIRECT_LINKS[linkIndex], '_blank');
+        // --- 4. MONETAG ADS + 10-SECOND TIMER ---
+        function openAd() {
+            const url = DIRECT_LINKS[linkIndex % DIRECT_LINKS.length];
             linkIndex = (linkIndex + 1) % DIRECT_LINKS.length;
+            // This call is made directly from the user's click flow, which gives mobile browsers
+            // the best chance of allowing the new tab. Popup blockers can still prevent a new tab.
+            const win = window.open(url, '_blank', 'noopener,noreferrer');
+            if (!win) {
+                alert("The ad tab was blocked by your browser. Please allow pop-ups for this site and try again.");
+            }
+            return win;
+        }
+
+        function openAdWindowInstance() {
+            return openAd();
         }
 
         function watchAdsTask(btnElement) {
-            // Guard limit check matching structural constraints configuration limits
+            if (!btnElement || btnElement.dataset.busy === '1') return;
             if (dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT) {
-                alert("Task Complete! You have finished your maximum daily ad viewing allotment allocation quota of 15 ads.");
+                alert(`You reached ${MAX_DAILY_ADS_LIMIT}/${MAX_DAILY_ADS_LIMIT} ads today.`);
                 return;
             }
 
-            // Secure user engagement immediately, preventing system click manipulation loops
+            btnElement.dataset.busy = '1';
             btnElement.disabled = true;
-            btnElement.innerText = "Wait 10s...";
-            
-            // Invoke the active structural MonetaG target url payload sequence redirection step
-            openAdWindowInstance();
-            
-            let timeRemaining = 10;
-            const timerThreadInterval = setInterval(() => {
-                timeRemaining--;
-                btnElement.innerText = "Wait " + timeRemaining + "s";
-                
-                if (timeRemaining <= 0) {
-                    clearInterval(timerThreadInterval);
-                    
-                    // Restore functional buttons click configurations mapping defaults status controls
-                    btnElement.innerText = "Watch";
-                    btnElement.disabled = false;
-                    
-                    // Increment runtime indices state variables tracker models properties values
+            let time = 10;
+            btnElement.innerText = `Wait ${time}s...`;
+
+            openAd();
+
+            const interval = setInterval(() => {
+                time--;
+                btnElement.innerText = time > 0 ? `Wait ${time}s...` : 'Done ✓';
+                if (time <= 0) {
+                    clearInterval(interval);
                     dailyAdsWatchedCount++;
-                    document.getElementById('ads-counter-text').innerText = `${dailyAdsWatchedCount}/${MAX_DAILY_ADS_LIMIT} today`;
-                    
-                    // Award metrics credit point operations execution step
-                    addPoints(8);
+                    addPoints(AD_REWARD_POINTS);
+                    saveState();
+                    btnElement.dataset.busy = '0';
+                    btnElement.disabled = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT;
+                    btnElement.innerText = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT ? 'Done' : 'Watch';
+                    updateTaskUI();
+                    alert(`You earned ${AD_REWARD_POINTS} points!`);
                 }
             }, 1000);
+            adIntervals['ads'] = interval;
+        }
+
+        // ========== YOUTUBE TASK ==========
+        function watchYoutubeTask(btn, videoUrl) {
+            if (!btn || btn.dataset.busy === '1') return;
+            videoUrl = videoUrl || YOUTUBE_TASK_URL;
+
+            if (watchedVideosToday.includes(videoUrl)) {
+                alert("You already watched this video today");
+                btn.disabled = true;
+                btn.innerText = "Watched";
+                return;
+            }
+
+            if (watchedVideosToday.length >= YOUTUBE_DAILY_LIMIT) {
+                alert(`You reached ${YOUTUBE_DAILY_LIMIT}/${YOUTUBE_DAILY_LIMIT} YouTube tasks today`);
+                return;
+            }
+
+            const btnId = 'yt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+            btn.dataset.busy = '1';
+            btn.dataset.btnid = btnId;
+            btn.disabled = true;
+            let time = 10;
+            btn.innerText = `Wait ${time}s...`;
+
+            // Open YouTube first, then the Monetag direct link from the same click flow.
+            const ytWindow = window.open(videoUrl, '_blank', 'noopener,noreferrer');
+            openAd();
+            if (!ytWindow) {
+                alert("YouTube was blocked by your browser. Please allow pop-ups for this site and try again.");
+            }
+
+            const interval = setInterval(() => {
+                time--;
+                if (time > 0) {
+                    btn.innerText = `Wait ${time}s...`;
+                } else {
+                    clearInterval(interval);
+                    delete adIntervals[btnId];
+                    btn.disabled = false;
+                    btn.dataset.busy = '0';
+                    btn.innerHTML = `Done! <button type="button" onclick="finishYoutube('${btnId}', '${escapeJsString(videoUrl)}')" style="margin-left:5px;background:green;color:white;border:none;border-radius:50%;width:24px;height:24px;font-size:12px;cursor:pointer;font-weight:bold;vertical-align:middle;">✓</button>`;
+                }
+            }, 1000);
+
+            adIntervals[btnId] = interval;
+        }
+
+        function escapeJsString(value) {
+            return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, ' ');
+        }
+
+        function finishYoutube(btnId, videoUrl) {
+            const btn = document.querySelector(`[data-btnid="${CSS.escape(btnId)}"]`);
+            if (!btn || btn.dataset.finished === '1') return;
+            if (watchedVideosToday.includes(videoUrl)) {
+                btn.dataset.finished = '1';
+                btn.innerText = "Watched";
+                return;
+            }
+            if (watchedVideosToday.length >= YOUTUBE_DAILY_LIMIT) {
+                alert(`You reached ${YOUTUBE_DAILY_LIMIT}/${YOUTUBE_DAILY_LIMIT} YouTube tasks today`);
+                return;
+            }
+
+            btn.dataset.finished = '1';
+            btn.dataset.busy = '0';
+            btn.disabled = true;
+            btn.innerText = "Watched";
+
+            watchedVideosToday.push(videoUrl);
+            addPoints(YOUTUBE_REWARD_POINTS);
+            saveState();
+            updateTaskUI();
+            alert(`You earned ${YOUTUBE_REWARD_POINTS} points!`);
         }
 
         // --- 5. SYSTEM TRANSACTION BALANCES POINT MANIPULATION CAPABILITIES ---
         function addPoints(pointsAmountValue) {
-            currentBalancePoints += pointsAmountValue;
-            document.getElementById('userBalance').innerText = currentBalancePoints.toLocaleString() + " Points";
-            
-            // [DEVELOPER LOG]: Insert your standard dynamic Firebase Database persistence operations right here:
-            console.log(`Firebase Realtime Update Pipeline Action: added +${pointsAmountValue} points. New profile evaluation total: ${currentBalancePoints}`);
+            const amount = Number(pointsAmountValue) || 0;
+            currentBalancePoints = Math.max(0, currentBalancePoints + amount);
+            syncCurrentUserData();
+            const balanceEl = document.getElementById('userBalance');
+            if (balanceEl) balanceEl.innerText = currentBalancePoints.toLocaleString() + " Points";
+            saveState();
         }
-
 
         // --- 6. REAL LUCKY SPIN WHEEL ---
         function openSpinWheel() {
@@ -1351,11 +1479,28 @@
                 currentBalancePoints = 0;
                 dailyAdsWatchedCount = 0;
                 dailySpinUsed = false;
+                watchedVideosToday = [];
                 updateBalanceUI();
                 updateTaskUI();
                 saveState();
                 alert("Session reset complete. Safely logged out of profile ledger pipeline.");
             }
+        }
+
+        // Admin/testing helper: resets daily task counters on this browser.
+        function resetMyLimits() {
+            const pass = prompt("Enter admin password to reset today's limits:");
+            if (pass !== "admin123" && pass !== "root") {
+                alert("Invalid admin password.");
+                return;
+            }
+            dailyAdsWatchedCount = 0;
+            dailySpinUsed = false;
+            watchedVideosToday = [];
+            stateDate = new Date().toISOString().slice(0, 10);
+            saveState();
+            updateTaskUI();
+            alert("Daily limits reset successfully.");
         }
 
         // --- 9. GLOBAL COUNTDOWN TIMER SYSTEM STRUCTURAL INITIALIZATION MOCK LOOP ---
@@ -1369,6 +1514,7 @@
                     stateDate = today;
                     dailyAdsWatchedCount = 0;
                     dailySpinUsed = false;
+                    watchedVideosToday = [];
                     updateTaskUI();
                     saveState();
                 }
