@@ -914,7 +914,7 @@
         const STORAGE_KEY = "earnKwaChaState_v6";
         const WITHDRAWALS_KEY = "earnKwaChaWithdrawals_v1";
         const MAX_DAILY_ADS_LIMIT = 15;
-        const YOUTUBE_DAILY_LIMIT = 5;
+        const YOUTUBE_DAILY_LIMIT = 10;
         const AD_REWARD_POINTS = 8;
         const YOUTUBE_REWARD_POINTS = 10;
         const SPIN_REWARDS = [5, 0, 2, 4, 1, 3];
@@ -1140,8 +1140,8 @@
             const ytWatched = watchedVideosToday.length;
             if (ytCounter) ytCounter.innerText = `${ytWatched}/${YOUTUBE_DAILY_LIMIT} today`;
             if (ytButton && !ytButton.dataset.busy) {
-                ytButton.disabled = ytWatched >= YOUTUBE_DAILY_LIMIT || watchedVideosToday.includes(YOUTUBE_TASK_URL);
-                ytButton.innerText = watchedVideosToday.includes(YOUTUBE_TASK_URL) ? "Watched" : (ytWatched >= YOUTUBE_DAILY_LIMIT ? "Done" : "Watch");
+                ytButton.disabled = ytWatched >= YOUTUBE_DAILY_LIMIT;
+                ytButton.innerText = ytWatched >= YOUTUBE_DAILY_LIMIT ? "Done" : "Watch";
             }
             loadLimits();
         }
@@ -1228,13 +1228,6 @@
             if (!btn || btn.dataset.busy === '1') return;
             videoUrl = videoUrl || YOUTUBE_TASK_URL;
 
-            if (watchedVideosToday.includes(videoUrl)) {
-                alert("You already watched this video today");
-                btn.disabled = true;
-                btn.innerText = "Watched";
-                return;
-            }
-
             if (watchedVideosToday.length >= YOUTUBE_DAILY_LIMIT) {
                 alert(`You reached ${YOUTUBE_DAILY_LIMIT}/${YOUTUBE_DAILY_LIMIT} YouTube tasks today`);
                 return;
@@ -1244,14 +1237,19 @@
             btn.dataset.busy = '1';
             btn.dataset.btnid = btnId;
             btn.disabled = true;
+
             let time = 10;
             btn.innerText = `Wait ${time}s...`;
 
-            // Open YouTube first, then the Monetag direct link from the same click flow.
+            // Open YouTube and the same Monetag Direct Link used by Watch Ads.
+            // Pop-up blocking can prevent either tab from opening.
             const ytWindow = window.open(videoUrl, '_blank', 'noopener,noreferrer');
-            openAd();
+            const adWindow = openAd();
+
             if (!ytWindow) {
-                alert("YouTube was blocked by your browser. Please allow pop-ups for this site and try again.");
+                alert("YouTube was blocked by your browser. Please allow pop-ups for this site.");
+            } else if (!adWindow) {
+                alert("The ad tab was blocked by your browser. Please allow pop-ups for this site.");
             }
 
             const interval = setInterval(() => {
@@ -1277,11 +1275,6 @@
         function finishYoutube(btnId, videoUrl) {
             const btn = document.querySelector(`[data-btnid="${CSS.escape(btnId)}"]`);
             if (!btn || btn.dataset.finished === '1') return;
-            if (watchedVideosToday.includes(videoUrl)) {
-                btn.dataset.finished = '1';
-                btn.innerText = "Watched";
-                return;
-            }
             if (watchedVideosToday.length >= YOUTUBE_DAILY_LIMIT) {
                 alert(`You reached ${YOUTUBE_DAILY_LIMIT}/${YOUTUBE_DAILY_LIMIT} YouTube tasks today`);
                 return;
@@ -1292,7 +1285,9 @@
             btn.disabled = true;
             btn.innerText = "Watched";
 
-            watchedVideosToday.push(videoUrl);
+            // Count each completed, user-initiated task separately.
+            // The same configured YouTube task can therefore be completed up to the daily limit.
+            watchedVideosToday.push({ url: videoUrl, completedAt: Date.now() });
             addPoints(YOUTUBE_REWARD_POINTS);
             saveState();
             updateTaskUI();
