@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EarnKwaCha 💰</title>
+    <title>EarnKwaCha ðŸ’°</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
         :root{--bg-color:#f4f6f9;--card-bg:#fff;--text-color:#333;--primary-color:#2ecc71;--secondary-color:#34495e;--accent-color:#e74c3c;--border-color:#e2e8f0}
@@ -91,49 +91,49 @@
     </style>
 </head>
 <body>
-<header><nav><div class="logo">EarnKwaCha 💰</div><div class="nav-controls"><button class="theme-toggle" onclick="toggleTheme()">🌙</button><button class="btn-auth" id="authBtn" onclick="toggleAuthMock()">Login</button></div></nav></header>
+<header><nav><div class="logo">EarnKwaCha ðŸ’°</div><div class="nav-controls"><button class="theme-toggle" onclick="toggleTheme()">ðŸŒ™</button><button class="btn-auth" id="authBtn" onclick="toggleAuthMock()">Login</button></div></nav></header>
 <main class="container">
-<div class="announcement-banner" id="announcementBox"><span>📢 Welcome to EarnKwaCha! Watch ads daily and withdraw directly via Airtel Money or Mpamba!</span><button class="close-banner" onclick="closeAnnouncement()">×</button></div>
-<section class="dashboard-card"><h3 class="balance-title">Your Balance</h3><div class="balance-amount" id="userBalance">0 Points</div><div class="reset-timer">Resets in: <span id="countdownTimer">24:00:00</span></div><div class="action-grid"><button class="btn-action" onclick="openModal('withdrawModal')">Request Withdraw</button><button class="btn-action" onclick="openModal('historyModal')">My Withdrawals</button><button class="btn-action" onclick="openModal('leaderboardModal')">🏆 Leaderboard</button><button class="btn-action btn-admin-nav" onclick="openModal('adminAuthModal')">Admin Panel 🔐</button></div></section>
-<section class="referral-box"><div class="referral-header">💰 Referral Program L1 + L2</div><div class="referral-rates">Level 1: 10 Points Instant | Level 2: 5 Points After 1 Ad - Max 20</div><div class="share-row"><input type="text" class="share-input" id="refLink" value="https://jayearnkwacha.github.io/ref?user=102938" readonly><button class="btn-task" onclick="copyReferralLink()">Copy Link</button></div></section>
+<div class="announcement-banner" id="announcementBox"><span>ðŸ“¢ Welcome to EarnKwaCha! Watch ads daily and withdraw directly via Airtel Money or Mpamba!</span><button class="close-banner" onclick="closeAnnouncement()">Ã—</button></div>
+<section class="dashboard-card"><h3 class="balance-title">Your Balance</h3><div class="balance-amount" id="userBalance">0 Points</div><div class="reset-timer">Resets in: <span id="countdownTimer">24:00:00</span></div><div class="action-grid"><button class="btn-action" onclick="openModal('withdrawModal')">Request Withdraw</button><button class="btn-action" onclick="openModal('historyModal')">My Withdrawals</button><button class="btn-action" onclick="openModal('leaderboardModal')">ðŸ† Leaderboard</button><button class="btn-action btn-admin-nav" onclick="openModal('adminAuthModal')">Admin Panel ðŸ”</button></div></section>
+<section class="referral-box"><div class="referral-header">ðŸ’° Referral Program L1 + L2</div><div class="referral-rates">Level 1: 10 Points Instant | Level 2: 5 Points After 1 Ad - Max 20</div><div class="share-row"><input type="text" class="share-input" id="https://jayearnkwacha.github.io/refLink" value="ref?user=102938" readonly><button class="btn-task" onclick="copyReferralLink()">Copy Link</button></div></section>
 <section class="tasks-section"><h3 class="tasks-title">Available Tasks (Resets Daily)</h3>
 <div class="task-row"><div class="task-info"><h4>Watch Ads - 8 Points</h4><p id="ads-counter-text">0/15 today</p></div><button class="btn-task" id="watchAdsBtn" onclick="watchAdsTask(this)">Watch</button></div>
 <!-- FIXED YOUTUBE PART WITH 10 ADS -->
-<div class="task-row"><div class="task-info"><h4>Watch YouTube - 10 Points (10 Monetag Ads)</h4><p id="ytCount">0/5 today</p></div><button class="btn-task" id="youtubeTaskBtn" onclick="openYoutubeTask()">Watch</button></div>
+<div class="task-row"><div class="task-info"><h4>Watch YouTube - 10 Points (10 Monetag Ads)</h4><p id="ytCount">0/10 today</p></div><button class="btn-task" id="youtubeTaskBtn" onclick="openYoutubeTask()">Watch</button></div>
 <div class="task-row"><div class="task-info"><h4>Spin & Win - 0-5 Points</h4><p id="spin-counter-text">0/1 today</p></div><button class="btn-task" id="spinBtn" onclick="openSpinWheel()">Spin</button></div>
 <div class="task-row"><div class="task-info"><h4>Quick Quiz - 10 Points</h4><p>0/3 today</p></div><button class="btn-task" onclick="alert('Loading Academic Quiz Engine...')">Play</button></div>
 </section>
-<div class="system-ad-space"><p>Advertisement — Please wait...</p></div>
+<div class="system-ad-space"><p>Advertisement â€” Please wait...</p></div>
 </main>
 
 <!-- NEW YOUTUBE + 10 DIRECT LINKS MODAL - ONLY NEW PART -->
 <div class="modal-overlay" id="youtubeAdsModal">
 <div class="modal-box" style="max-width:650px">
-<h3>📺 Watch YouTube + 10 Monetag Ads</h3>
+<h3>ðŸ“º Watch YouTube + 10 Monetag Ads</h3>
 <p style="font-size:0.85rem;color:#777;margin:8px 0">Watch video, then click 10 ads. Each ad opens new Monetag link: 11819772</p>
 <div class="yt-video-wrap"><iframe id="ytIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
 <div style="background:#f1f5f9;padding:12px;border-radius:10px">
 <div style="display:flex;justify-content:space-between;font-weight:800"><span id="ytAdsProgressText">Ads: 0/10</span><span id="ytAdsStatus">Ready</span></div>
 <div class="progress-bar"><div class="progress-fill" id="ytProgressFill"></div></div>
 </div>
-<button class="yt-ad-btn" id="ytAdButton" onclick="handleYoutubeAdClick()">▶ Watch Ad 1/10</button>
-<button class="btn-task" id="ytClaimBtn" style="width:100%;margin-top:10px;display:none;background:#2ecc71;padding:14px;font-size:1.1rem" onclick="claimYoutubeReward()">✅ Claim 10 Points</button>
+<button class="yt-ad-btn" id="ytAdButton" onclick="handleYoutubeAdClick()">â–¶ Watch Ad 1/10</button>
+<button class="btn-task" id="ytClaimBtn" style="width:100%;margin-top:10px;display:none;background:#2ecc71;padding:14px;font-size:1.1rem" onclick="claimYoutubeReward()">âœ… Claim 10 Points</button>
 <button class="modal-close-btn" onclick="closeYoutubeTask()">Close</button>
 </div>
 </div>
 
 <!-- Spin & Win Wheel -->
-<div class="modal-overlay" id="spinWheelModal"><div class="wheel-modal-box"><div class="wheel-title">🎡 Spin & Win</div><div class="wheel-subtitle">One free spin every day • Rewards: 5, 0, 2, 4, 1, 3</div><div class="wheel-wrap"><div class="wheel-pointer"></div><div class="lucky-wheel" id="luckyWheel"><div class="wheel-labels" aria-hidden="true"><div class="wheel-label" style="transform:rotate(0deg) translateX(-50%);"><span>5</span></div><div class="wheel-label" style="transform:rotate(60deg) translateX(-50%);"><span>0</span></div><div class="wheel-label" style="transform:rotate(120deg) translateX(-50%);"><span>2</span></div><div class="wheel-label" style="transform:rotate(180deg) translateX(-50%);"><span>4</span></div><div class="wheel-label" style="transform:rotate(240deg) translateX(-50%);"><span>1</span></div><div class="wheel-label" style="transform:rotate(300deg) translateX(-50%);"><span>3</span></div></div><div class="wheel-center"></div></div></div><button class="wheel-spin-btn" id="realSpinButton" onclick="spinWheel()">SPIN NOW 🎯</button><div class="wheel-result" id="wheelResult"></div><button class="modal-close-btn" onclick="closeModal('spinWheelModal')">Close</button></div></div>
+<div class="modal-overlay" id="spinWheelModal"><div class="wheel-modal-box"><div class="wheel-title">ðŸŽ¡ Spin & Win</div><div class="wheel-subtitle">One free spin every day â€¢ Rewards: 5, 0, 2, 4, 1, 3</div><div class="wheel-wrap"><div class="wheel-pointer"></div><div class="lucky-wheel" id="luckyWheel"><div class="wheel-labels" aria-hidden="true"><div class="wheel-label" style="transform:rotate(0deg) translateX(-50%);"><span>5</span></div><div class="wheel-label" style="transform:rotate(60deg) translateX(-50%);"><span>0</span></div><div class="wheel-label" style="transform:rotate(120deg) translateX(-50%);"><span>2</span></div><div class="wheel-label" style="transform:rotate(180deg) translateX(-50%);"><span>4</span></div><div class="wheel-label" style="transform:rotate(240deg) translateX(-50%);"><span>1</span></div><div class="wheel-label" style="transform:rotate(300deg) translateX(-50%);"><span>3</span></div></div><div class="wheel-center"></div></div></div><button class="wheel-spin-btn" id="realSpinButton" onclick="spinWheel()">SPIN NOW ðŸŽ¯</button><div class="wheel-result" id="wheelResult"></div><button class="modal-close-btn" onclick="closeModal('spinWheelModal')">Close</button></div></div>
 
 <div class="modal-overlay" id="withdrawModal"><div class="modal-box"><h3>Request Withdraw</h3><p style="font-size:0.85rem;color:#7f8c8d;margin-bottom:1rem;">Min Withdraw: 5000 Points = 5000 MWK<br>Rate: 1 Point = 1 MWK</p><form onsubmit="submitWithdrawForm(event)"><div class="form-group"><label>Payment Method</label><select class="form-control" id="withdrawMethod"><option value="Airtel Money">Airtel Money</option><option value="TNM Mpamba">TNM Mpamba</option><option value="National Bank Account">National Bank Account</option><option value="Binance USDT">Binance USDT</option><option value="PayPal USD">PayPal USD</option></select></div><div class="form-group"><label>Account Number / Phone / Wallet Address</label><input type="text" class="form-control" required placeholder="0888... / 0999... / Email"></div><div class="form-group"><label>Points Amount</label><input type="number" class="form-control" min="5000" step="1" required placeholder="5000"></div><button type="submit" class="btn-task" style="width:100%;">Submit Request</button></form><button class="modal-close-btn" onclick="closeModal('withdrawModal')">Cancel</button></div></div>
 
 <div class="modal-overlay" id="historyModal"><div class="modal-box" style="max-width:600px;"><h3>My Withdrawal History</h3><table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead><tbody id="historyTableBody"><tr><td colspan="4" style="color:#7f8c8d;text-align:center;">No withdrawal requests yet.</td></tr></tbody></table><button class="modal-close-btn" onclick="closeModal('historyModal')">Close</button></div></div>
 
-<div class="modal-overlay" id="leaderboardModal"><div class="modal-box"><h3>🏆 Top 10 Earners</h3><table><thead><tr><th>Rank</th><th>User</th><th>Balance</th></tr></thead><tbody><tr><td>1</td><td>chis***@gmail.com</td><td>42,150 pts</td></tr><tr><td>2</td><td>band***@yahoo.com</td><td>38,400 pts</td></tr><tr><td>3</td><td>phir***@gmail.com</td><td>31,200 pts</td></tr></tbody></table><button class="modal-close-btn" onclick="closeModal('leaderboardModal')">Close</button></div></div>
+<div class="modal-overlay" id="leaderboardModal"><div class="modal-box"><h3>ðŸ† Top 10 Earners</h3><table><thead><tr><th>Rank</th><th>User</th><th>Balance</th></tr></thead><tbody><tr><td>1</td><td>chis***@gmail.com</td><td>42,150 pts</td></tr><tr><td>2</td><td>band***@yahoo.com</td><td>38,400 pts</td></tr><tr><td>3</td><td>phir***@gmail.com</td><td>31,200 pts</td></tr></tbody></table><button class="modal-close-btn" onclick="closeModal('leaderboardModal')">Close</button></div></div>
 
-<div class="modal-overlay" id="adminAuthModal"><div class="modal-box"><h3>Admin Login 🔐</h3><p style="margin-bottom:1rem;font-size:0.9rem;">Enter admin authorization passcode keys:</p><div class="form-group"><input type="password" id="adminPassField" class="form-control" placeholder="••••••••"></div><button class="btn-task" style="width:100%;background-color:#34495e;" onclick="accessAdminDashboard()">Enter</button><button class="modal-close-btn" onclick="closeModal('adminAuthModal')">Cancel</button></div></div>
+<div class="modal-overlay" id="adminAuthModal"><div class="modal-box"><h3>Admin Login ðŸ”</h3><p style="margin-bottom:1rem;font-size:0.9rem;">Enter admin authorization passcode keys:</p><div class="form-group"><input type="password" id="adminPassField" class="form-control" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"></div><button class="btn-task" style="width:100%;background-color:#34495e;" onclick="accessAdminDashboard()">Enter</button><button class="modal-close-btn" onclick="closeModal('adminAuthModal')">Cancel</button></div></div>
 
-<div class="modal-overlay" id="adminPanelDashboardModal"><div class="admin-page-modal"><h2>Admin Panel 🔐</h2><button class="admin-back-btn" onclick="closeModal('adminPanelDashboardModal')">Back to Dashboard</button><div class="admin-tabs"><button id="adminUsersTab" class="admin-tab active" onclick="showAdminTab('users')">Users</button><button id="adminWithdrawalsTab" class="admin-tab" onclick="showAdminTab('withdrawals')">All Withdrawals</button></div><div id="adminUsersPanel" class="admin-users-panel active"><h3 class="admin-section-title">All Users</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Email</th><th>Balance</th><th>Admin</th><th>Action</th></tr></thead><tbody id="adminUsersTableBody"><tr><td>kellybkenani@gmail.com</td><td>135 pts</td><td>Yes</td><td><button class="admin-add-btn" onclick="adminAddPoints(this,100)">+100</button></td></tr><tr><td>kapolomemory@gmail.com</td><td>0 pts</td><td>No</td><td><button class="admin-add-btn" onclick="adminAddPoints(this,100)">+100</button></td></tr></tbody></table></div></div><div id="adminWithdrawalsPanel" class="admin-withdraw-panel"><h3 class="admin-section-title">All Withdrawals</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Email</th><th>Method</th><th>Points</th><th>Status</th><th>Proof Screenshot</th><th>Action</th></tr></thead><tbody id="adminWithdrawalsTableBody"><tr><td colspan="6" style="text-align:center;color:#666;">No withdrawal requests.</td></tr></tbody></table></div></div></div></div>
+<div class="modal-overlay" id="adminPanelDashboardModal"><div class="admin-page-modal"><h2>Admin Panel ðŸ”</h2><button class="admin-back-btn" onclick="closeModal('adminPanelDashboardModal')">Back to Dashboard</button><div class="admin-tabs"><button id="adminUsersTab" class="admin-tab active" onclick="showAdminTab('users')">Users</button><button id="adminWithdrawalsTab" class="admin-tab" onclick="showAdminTab('withdrawals')">All Withdrawals</button></div><div id="adminUsersPanel" class="admin-users-panel active"><h3 class="admin-section-title">All Users</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Email</th><th>Balance</th><th>Admin</th><th>Action</th></tr></thead><tbody id="adminUsersTableBody"><tr><td>kellybkenani@gmail.com</td><td>135 pts</td><td>Yes</td><td><button class="admin-add-btn" onclick="adminAddPoints(this,100)">+100</button></td></tr><tr><td>kapolomemory@gmail.com</td><td>0 pts</td><td>No</td><td><button class="admin-add-btn" onclick="adminAddPoints(this,100)">+100</button></td></tr></tbody></table></div></div><div id="adminWithdrawalsPanel" class="admin-withdraw-panel"><h3 class="admin-section-title">All Withdrawals</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Email</th><th>Method</th><th>Points</th><th>Status</th><th>Proof Screenshot</th><th>Action</th></tr></thead><tbody id="adminWithdrawalsTableBody"><tr><td colspan="6" style="text-align:center;color:#666;">No withdrawal requests.</td></tr></tbody></table></div></div></div></div>
 
 <script>
 // ====== CONFIG - TWO DIFFERENT MONETAG LINKS ======
@@ -197,7 +197,7 @@ function updateTaskUI(){
  if(ytCounter) ytCounter.innerText=`${watchedVideosToday.length}/${YOUTUBE_DAILY_LIMIT} today`;
  if(ytButton &&!ytButton.dataset.busy){ytButton.disabled=watchedVideosToday.length>=YOUTUBE_DAILY_LIMIT;ytButton.innerText=watchedVideosToday.length>=YOUTUBE_DAILY_LIMIT?"Done":"Watch"}
 }
-function toggleTheme(){document.body.classList.toggle('dark-mode');document.querySelector('.theme-toggle').innerText=document.body.classList.contains('dark-mode')?'☀️':'🌙'}
+function toggleTheme(){document.body.classList.toggle('dark-mode');document.querySelector('.theme-toggle').innerText=document.body.classList.contains('dark-mode')?'â˜€ï¸':'ðŸŒ™'}
 function closeAnnouncement(){document.getElementById('announcementBox').style.display='none'}
 function copyReferralLink(){const t=document.getElementById("refLink");t.select();navigator.clipboard.writeText(t.value);alert("Referral Link copied!")}
 function openModal(id){document.getElementById(id).classList.add('active')}
@@ -223,7 +223,7 @@ function watchAdsTask(btn){
  btn.dataset.busy='1';btn.disabled=true;let time=10;btn.innerText=`Wait ${time}s...`;
  openAdForWatchAds();
  const interval=setInterval(()=>{
-  time--;btn.innerText=time>0?`Wait ${time}s...`:'Done ✓';
+  time--;btn.innerText=time>0?`Wait ${time}s...`:'Done âœ“';
   if(time<=0){clearInterval(interval);dailyAdsWatchedCount++;currentBalancePoints+=AD_REWARD_POINTS;saveState();updateBalanceUI();updateTaskUI();btn.dataset.busy='0';btn.disabled=dailyAdsWatchedCount>=MAX_DAILY_ADS_LIMIT;btn.innerText=dailyAdsWatchedCount>=MAX_DAILY_ADS_LIMIT?'Done':'Watch';alert(`You earned ${AD_REWARD_POINTS} points!`)}
  },1000);
 }
@@ -236,7 +236,7 @@ function openYoutubeTask(){
  document.getElementById('ytAdsProgressText').innerText="Ads: 0/10";
  document.getElementById('ytProgressFill').style.width="0%";
  document.getElementById('ytAdsStatus').innerText="Watch video, then ads";
- document.getElementById('ytAdButton').innerText="▶ Watch Ad 1/10";
+ document.getElementById('ytAdButton').innerText="â–¶ Watch Ad 1/10";
  document.getElementById('ytAdButton').style.display="block";
  document.getElementById('ytAdButton').disabled=false;
  document.getElementById('ytClaimBtn').style.display="none";
@@ -248,10 +248,10 @@ function handleYoutubeAdClick(){
  let btn=document.getElementById('ytAdButton');
  let t=12;
  btn.disabled=true;
- btn.innerText=`⏳ Wait ${t}s... Ad ${ytAdsWatchedSession+1}/10`;
+ btn.innerText=`â³ Wait ${t}s... Ad ${ytAdsWatchedSession+1}/10`;
  document.getElementById('ytAdsStatus').innerText=`Ad ${ytAdsWatchedSession+1} running`;
  ytTimer=setInterval(()=>{
-  t--;btn.innerText=t>0?`⏳ Wait ${t}s... Ad ${ytAdsWatchedSession+1}/10`:"Done ✓";
+  t--;btn.innerText=t>0?`â³ Wait ${t}s... Ad ${ytAdsWatchedSession+1}/10`:"Done âœ“";
   if(t<=0){
    clearInterval(ytTimer);
    ytAdsWatchedSession++;
@@ -263,7 +263,7 @@ function handleYoutubeAdClick(){
     document.getElementById('ytAdsStatus').innerText="All 10 ads watched! Claim now!";
    } else {
     btn.disabled=false;
-    btn.innerText=`▶ Watch Ad ${ytAdsWatchedSession+1}/10`;
+    btn.innerText=`â–¶ Watch Ad ${ytAdsWatchedSession+1}/10`;
     document.getElementById('ytAdsStatus').innerText=`Next: Ad ${ytAdsWatchedSession+1}`;
    }
   }
@@ -273,7 +273,7 @@ function claimYoutubeReward(){
  watchedVideosToday.push({url:YOUTUBE_TASK_URL,completedAt:Date.now()});
  currentBalancePoints+=YOUTUBE_REWARD_POINTS;
  saveState();updateBalanceUI();updateTaskUI();closeYoutubeTask();
- alert(`🎉 You earned ${YOUTUBE_REWARD_POINTS} Points! 10 Monetag views (11819772) counted!`);
+ alert(`ðŸŽ‰ You earned ${YOUTUBE_REWARD_POINTS} Points! 10 Monetag views (11819772) counted!`);
 }
 
 function addPoints(a){currentBalancePoints=Math.max(0,currentBalancePoints+(Number(a)||0));syncCurrentUserData();document.getElementById('userBalance').innerText=currentBalancePoints.toLocaleString()+" Points";saveState()}
@@ -292,7 +292,7 @@ function spinWheel(){
  const extraTurns=6+Math.floor(Math.random()*3);
  wheelRotation+=extraTurns*360+targetAngle;
  wheel.style.transform=`rotate(${wheelRotation}deg)`;
- setTimeout(()=>{dailySpinUsed=true;addPoints(selectedWheelReward);saveState();updateTaskUI();result.innerText=`🎉 You won ${selectedWheelReward} Points!`},4100);
+ setTimeout(()=>{dailySpinUsed=true;addPoints(selectedWheelReward);saveState();updateTaskUI();result.innerText=`ðŸŽ‰ You won ${selectedWheelReward} Points!`},4100);
 }
 function getWithdrawals(){try{return JSON.parse(localStorage.getItem(WITHDRAWALS_KEY)||"[]")}catch(e){return[]}}
 function saveWithdrawals(l){localStorage.setItem(WITHDRAWALS_KEY,JSON.stringify(l))}
