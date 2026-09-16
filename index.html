@@ -5,1537 +5,249 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EarnKwaCha 💰</title>
     <style>
-        /* Global Reset & Typography */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        :root {
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --primary-color: #2ecc71;
-            --secondary-color: #34495e;
-            --accent-color: #e74c3c;
-            --border-color: #e2e8f0;
-        }
-        body.dark-mode {
-            --bg-color: #1a1a2e;
-            --card-bg: #16213e;
-            --text-color: #e2e8f0;
-            --border-color: #243b55;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background 0.3s, color 0.3s;
-            padding-bottom: 60px;
-        }
-
-        /* Top Navigation Header */
-        header {
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .btn-auth {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Main Container Framework */
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        /* Alert/Announcement Banner */
-        .announcement-banner {
-            background-color: #3498db;
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .close-banner {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        /* Dashboard Identity Box */
-        .dashboard-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            margin-bottom: 1.5rem;
-        }
-        .balance-title {
-            font-size: 1rem;
-            color: #7f8c8d;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .balance-amount {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin: 0.5rem 0;
-        }
-        .reset-timer {
-            font-size: 0.85rem;
-            color: #95a5a6;
-        }
-
-        /* Quick Action Grid Panels */
-        .action-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-        }
-        .btn-action {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: transform 0.2s;
-        }
-        .btn-action:hover {
-            transform: translateY(-2px);
-        }
-        .btn-admin-nav {
-            background-color: #7f8c8d;
-        }
-
-        /* Referral System Panel */
-        .referral-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .referral-header {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        .referral-rates {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-            margin-bottom: 1rem;
-        }
-        .share-row {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .share-input {
-            flex: 1;
-            padding: 0.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        /* Interactive Task List View Layout */
-        .tasks-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        .tasks-title {
-            margin-bottom: 1rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-        .task-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .task-row:last-child {
-            border-bottom: none;
-        }
-        .task-info h4 {
-            margin-bottom: 0.25rem;
-        }
-        .task-info p {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-        }
-        .btn-task {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1.25rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-task:disabled {
-            background-color: #95a5a6;
-            cursor: not-allowed;
-        }
-
-
-        /* Lucky Wheel - reference-style Spin & Win */
-        .wheel-modal-box {
-            background: var(--card-bg);
-            color: var(--text-color);
-            padding: 1.25rem;
-            border-radius: 18px;
-            width: min(94vw, 520px);
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,.2);
-        }
-        .wheel-title {
-            margin-bottom: .35rem;
-            font-size: 1.45rem;
-            font-weight: 800;
-        }
-        .wheel-subtitle {
-            color: #7f8c8d;
-            font-size: .9rem;
-            margin-bottom: .9rem;
-        }
-        .wheel-wrap {
-            position: relative;
-            width: min(82vw, 390px);
-            aspect-ratio: 1;
-            margin: .4rem auto 1rem;
-        }
-        .wheel-pointer {
-            position: absolute;
-            z-index: 5;
-            top: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 22px solid transparent;
-            border-right: 22px solid transparent;
-            border-top: 42px solid #d49a20;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,.3));
-        }
-        .wheel-pointer::before {
-            content: "";
-            position: absolute;
-            left: -15px;
-            top: -38px;
-            width: 30px;
-            height: 9px;
-            border-radius: 4px;
-            background: linear-gradient(#ffe88a,#c4860e);
-        }
-        .lucky-wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 16px solid #1756d1;
-            box-shadow: inset 0 0 0 4px #ffe75b, 0 10px 24px rgba(0,0,0,.22);
-            position: relative;
-            overflow: hidden;
-            transition: transform 4s cubic-bezier(.12,.72,.13,1);
-            background: conic-gradient(
-                from -25.714deg,
-                #2fa9e9 0deg 51.428deg,
-                #fff 51.428deg 102.856deg,
-                #2fa9e9 102.856deg 154.284deg,
-                #fff 154.284deg 205.712deg,
-                #2fa9e9 205.712deg 257.14deg,
-                #fff 257.14deg 308.568deg,
-                #2fa9e9 308.568deg 360deg
-            );
-        }
-        .wheel-labels {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-        .wheel-label {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 42%;
-            transform-origin: 0 0;
-            font-weight: 900;
-            font-size: clamp(1.1rem, 4.8vw, 1.65rem);
-            color: #1768d7;
-            text-shadow: 0 1px 1px rgba(255,255,255,.7);
-        }
-        .wheel-label span {
-            display: block;
-            width: 100%;
-            text-align: center;
-            transform: translateY(-50%) rotate(90deg);
-        }
-        .wheel-label:nth-child(2n) { color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
-        .wheel-center {
-            position: absolute;
-            z-index: 4;
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%);
-            background: #1756d1;
-            border: 4px solid #2f67dc;
-            box-shadow: 0 3px 7px rgba(0,0,0,.25);
-        }
-        .wheel-spin-btn {
-            width: min(100%, 280px);
-            border: 0;
-            border-radius: 12px;
-            padding: 13px 18px;
-            background: linear-gradient(135deg,#087cf0,#1756d1);
-            color: #fff;
-            font-size: 1.05rem;
-            font-weight: 800;
-            cursor: pointer;
-        }
-        .wheel-spin-btn:disabled { opacity: .55; cursor: not-allowed; }
-        .wheel-result {
-            min-height: 24px;
-            margin-top: .75rem;
-            font-weight: 800;
-        }
-        .proof-thumb {
-            display: block;
-            width: 92px;
-            height: 64px;
-            object-fit: cover;
-            border-radius: 7px;
-            border: 1px solid #ddd;
-            margin-top: 6px;
-        }
-        .admin-action-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .admin-small-btn {
-            border: 0;
-            border-radius: 7px;
-            padding: 8px 10px;
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .admin-approve { background: #28a745; }
-        .admin-cancel { background: #e74c3c; }
-        .admin-proof { background: #6c5ce7; }
-        .proof-input { max-width: 230px; font-size: .8rem; }
-
-        /* Overlay Popups (Modals) System */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .modal-box {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        .modal-close-btn {
-            background-color: #7f8c8d;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            margin-top: 1.5rem;
-            cursor: pointer;
-            width: 100%;
-        }
-        
-        /* Tables Styles inside Modals */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        th, td {
-            padding: 0.5rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        /* Form Controls Setup */
-        .form-group {
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.25rem;
-            font-size: 0.9rem;
-        }
-        .form-control {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        /* System Ad Banner Placeholder styling */
-        .system-ad-space {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: #ebebeb;
-            border-radius: 8px;
-            text-align: center;
-            color: #666;
-            font-size: 0.8rem;
-        }
-        body.dark-mode .system-ad-space {
-            background: #111;
-            color: #555;
-        }
-
-        /* Admin Panel - screenshot-inspired mobile layout */
-        .admin-page-modal {
-            background: #fff;
-            color: #111;
-            width: min(94vw, 700px);
-            max-height: 92vh;
-            overflow-y: auto;
-            border-radius: 22px;
-            padding: 28px 30px 22px;
-            box-shadow: 0 12px 35px rgba(0,0,0,.16);
-        }
-        .admin-page-modal h2 {
-            text-align: center;
-            color: #087cf0;
-            font-size: 2.35rem;
-            margin: 0 0 14px;
-            font-weight: 800;
-        }
-        .admin-back-btn {
-            width: 100%;
-            border: 0;
-            border-radius: 12px;
-            padding: 15px 18px;
-            background: #087cf0;
-            color: #fff;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin-bottom: 14px;
-        }
-        .admin-tabs {
-            display: flex;
-            gap: 14px;
-            margin-bottom: 0;
-        }
-        .admin-tab {
-            border: 0;
-            border-radius: 8px 8px 0 0;
-            padding: 13px 28px;
-            font-size: 1rem;
-            cursor: pointer;
-            background: #ddd;
-            color: #222;
-        }
-        .admin-tab.active {
-            background: #087cf0;
-            color: #fff;
-        }
-        .admin-section-title {
-            font-size: 1.55rem;
-            margin: 0 0 12px;
-            color: #111;
-        }
-        .admin-table-wrap {
-            overflow-x: auto;
-            margin: 0 -30px;
-            padding: 0 30px;
-        }
-        .admin-table {
-            width: 100%;
-            min-width: 610px;
-            border-collapse: collapse;
-            font-size: .95rem;
-        }
-        .admin-table th {
-            background: #087cf0;
-            color: #fff;
-            padding: 14px 15px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-        .admin-table td {
-            padding: 20px 15px;
-            border-bottom: 1px solid #ddd;
-            color: #111;
-            white-space: nowrap;
-        }
-        .admin-add-btn {
-            border: 0;
-            border-radius: 8px;
-            padding: 10px 16px;
-            background: #28a745;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .admin-withdraw-panel {
-            display: none;
-        }
-        .admin-withdraw-panel.active {
-            display: block;
-        }
-        .admin-users-panel.active {
-            display: block;
-        }
-        .admin-users-panel {
-            display: block;
-        }
-        .admin-mobile-note {
-            margin-top: 14px;
-            font-size: .82rem;
-            color: #666;
-        }
-        @media (max-width: 560px) {
-            .admin-page-modal {
-                width: 94vw;
-                padding: 22px 18px 18px;
-                border-radius: 20px;
-            }
-            .admin-page-modal h2 {
-                font-size: 2rem;
-            }
-            .admin-table-wrap {
-                margin: 0 -18px;
-                padding: 0 18px;
-            }
-            .admin-table {
-                min-width: 590px;
-            }
-            .admin-tab {
-                padding: 12px 24px;
-            }
-        }
-
+        * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+        :root{--bg-color:#f4f6f9;--card-bg:#fff;--text-color:#333;--primary-color:#2ecc71;--secondary-color:#34495e;--border-color:#e2e8f0}
+        body.dark-mode{--bg-color:#1a1a2e;--card-bg:#16213e;--text-color:#e2e8f0;--border-color:#243b55}
+        body{background:var(--bg-color);color:var(--text-color);transition:background 0.3s,color 0.3s;padding-bottom:60px}
+        header{background:var(--card-bg);border-bottom:1px solid var(--border-color);padding:1rem 2rem;position:sticky;top:0;z-index:100}
+        nav{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto}
+       .logo{font-size:1.5rem;font-weight:bold;display:flex;align-items:center;gap:0.5rem}
+       .nav-controls{display:flex;align-items:center;gap:1rem}
+       .theme-toggle{background:none;border:none;font-size:1.2rem;cursor:pointer}
+       .btn-auth{background:var(--primary-color);color:white;border:none;padding:0.5rem 1rem;border-radius:5px;font-weight:bold;cursor:pointer}
+       .container{max-width:800px;margin:2rem auto;padding:0 1rem}
+       .announcement-banner{background:#3498db;color:white;padding:0.75rem 1rem;border-radius:8px;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center}
+       .close-banner{background:none;border:none;color:white;font-size:1.2rem;cursor:pointer}
+       .dashboard-card{background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:2rem;text-align:center;margin-bottom:1.5rem}
+       .balance-amount{font-size:3rem;font-weight:bold;color:var(--primary-color);margin:0.5rem 0}
+       .action-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0.75rem;margin:1.5rem 0}
+       .btn-action{background:var(--secondary-color);color:white;border:none;padding:0.75rem;border-radius:8px;cursor:pointer;font-weight:600}
+       .btn-admin-nav{background:#7f8c8d}
+       .referral-box{background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+       .share-row{display:flex;gap:0.5rem}
+       .share-input{flex:1;padding:0.5rem;border:1px solid var(--border-color);border-radius:5px;background:var(--bg-color);color:var(--text-color)}
+       .tasks-section{background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:1.5rem}
+       .task-row{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid var(--border-color)}
+       .btn-task{background:var(--primary-color);color:white;border:none;padding:0.5rem 1.25rem;border-radius:5px;cursor:pointer;font-weight:bold}
+       .btn-task:disabled{background:#95a5a6;cursor:not-allowed}
+       .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity 0.3s}
+       .modal-overlay.active{opacity:1;pointer-events:auto}
+       .modal-box{background:var(--card-bg);padding:2rem;border-radius:12px;width:90%;max-width:500px}
+       .modal-close-btn{background:#7f8c8d;color:white;border:none;padding:0.5rem 1rem;border-radius:5px;margin-top:1.5rem;cursor:pointer;width:100%}
+        /* NEW YOUTUBE 10 ADS STYLES */
+       .yt-video-wrap{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;margin:12px 0}
+       .yt-video-wrap iframe{width:100%;height:100%;border:0}
+       .progress-bar{width:100%;height:14px;background:#e2e8f0;border-radius:10px;overflow:hidden;margin:8px 0}
+       .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#2ecc71,#27ae60);transition:0.4s}
+       .yt-ad-btn{width:100%;padding:14px;border-radius:10px;border:0;background:linear-gradient(135deg,#ff6a00,#ee0979);color:white;font-weight:900;font-size:1.1rem;cursor:pointer}
+        /* Wheel + admin same as before */
+       .wheel-modal-box{background:var(--card-bg);color:var(--text-color);padding:1.25rem;border-radius:18px;width:min(94vw,520px);text-align:center}
+       .wheel-wrap{position:relative;width:min(82vw,390px);aspect-ratio:1;margin:.4rem auto 1rem}
+       .wheel-pointer{position:absolute;z-index:5;top:-2px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-top:42px solid #d49a20}
+       .lucky-wheel{width:100%;height:100%;border-radius:50%;border:16px solid #1756d1;position:relative;overflow:hidden;transition:transform 4s cubic-bezier(.12,.72,.13,1);background:conic-gradient(from -25.714deg,#2fa9e9 0deg 51.428deg,#fff 51.428deg 102.856deg,#2fa9e9 102.856deg 154.284deg,#fff 154.284deg 205.712deg,#2fa9e9 205.712deg 257.14deg,#fff 257.14deg 308.568deg,#2fa9e9 308.568deg 360deg)}
+       .wheel-label{position:absolute;left:50%;top:50%;width:42%;transform-origin:0 0;font-weight:900;font-size:clamp(1.1rem,4.8vw,1.65rem);color:#1768d7}
+       .wheel-label span{display:block;width:100%;text-align:center;transform:translateY(-50%) rotate(90deg)}
+       .wheel-center{position:absolute;z-index:4;width:54px;height:54px;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);background:#1756d1;border:4px solid #2f67dc}
+       .wheel-spin-btn{width:min(100%,280px);border:0;border-radius:12px;padding:13px 18px;background:linear-gradient(135deg,#087cf0,#1756d1);color:#fff;font-size:1.05rem;font-weight:800;cursor:pointer}
+        table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.9rem}
+        th,td{padding:0.5rem;text-align:left;border-bottom:1px solid var(--border-color)}
+       .form-group{margin-bottom:1rem}
+       .form-control{width:100%;padding:0.5rem;border:1px solid var(--border-color);border-radius:5px;background:var(--bg-color);color:var(--text-color)}
+       .admin-page-modal{background:#fff;color:#111;width:min(94vw,700px);max-height:92vh;overflow-y:auto;border-radius:22px;padding:28px 30px 22px}
+       .admin-back-btn{width:100%;border:0;border-radius:12px;padding:15px 18px;background:#087cf0;color:#fff;font-size:1.1rem;cursor:pointer;margin-bottom:14px}
+       .admin-tabs{display:flex;gap:14px}
+       .admin-tab{border:0;border-radius:8px 8px 0 0;padding:13px 28px;font-size:1rem;cursor:pointer;background:#ddd;color:#222}
+       .admin-tab.active{background:#087cf0;color:#fff}
+       .admin-table-wrap{overflow-x:auto;margin:0 -30px;padding:0 30px}
+       .admin-table{width:100%;min-width:610px;border-collapse:collapse}
+       .admin-table th{background:#087cf0;color:#fff;padding:14px 15px}
+       .admin-table td{padding:20px 15px;border-bottom:1px solid #ddd;color:#111}
+       .proof-thumb{display:block;width:92px;height:64px;object-fit:cover;border-radius:7px;border:1px solid #ddd;margin-top:6px}
+       .admin-small-btn{border:0;border-radius:7px;padding:8px 10px;color:#fff;font-weight:700;cursor:pointer}
+       .admin-approve{background:#28a745}.admin-cancel{background:#e74c3c}
     </style>
 </head>
 <body>
-
-    <!-- Header Navigation Section -->
-    <header>
-        <nav>
-            <div class="logo">EarnKwaCha 💰</div>
-            <div class="nav-controls">
-                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-                <button class="btn-auth" id="authBtn" onclick="toggleAuthMock()">Login</button>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Container Interface Framework -->
-    <main class="container">
-        
-        <!-- Live System Announcements Banner -->
-        <div class="announcement-banner" id="announcementBox">
-            <span>📢 Welcome to EarnKwaCha! Watch ads daily and withdraw directly via Airtel Money or Mpamba!</span>
-            <button class="close-banner" onclick="closeAnnouncement()">×</button>
-        </div>
-
-        <!-- Dashboard Panel -->
-        <section class="dashboard-card">
-            <h3 class="balance-title">Your Balance</h3>
-            <div class="balance-amount" id="userBalance">0 Points</div>
-            <div class="reset-timer">Resets in: <span id="countdownTimer">24:00:00</span></div>
-            
-            <div class="action-grid">
-                <button class="btn-action" onclick="openModal('withdrawModal')">Request Withdraw</button>
-                <button class="btn-action" onclick="openModal('historyModal')">My Withdrawals</button>
-                <button class="btn-action" onclick="openModal('leaderboardModal')">🏆 Leaderboard</button>
-                <button class="btn-action btn-admin-nav" onclick="openModal('adminAuthModal')">Admin Panel 🔐</button>
-            </div>
-        </section>
-
-        <section class="referral-box">
-            <div class="referral-header">💰 Referral Program L1 + L2</div>
-            <div class="referral-rates">Level 1: 10 Points Instant | Level 2: 5 Points After 1 Ad - Max 20</div>
-            <div class="share-row">
-                <input type="text" class="share-input" id="refLink" value="https://jayearnkwacha.com/ref?user=102938" readonly>
-                <button class="btn-task" onclick="copyReferralLink()">Copy Link</button>
-            </div>
-        </section>
-
-        <section class="tasks-section">
-            <h3 class="tasks-title">Available Tasks (Resets Daily)</h3>
-            
-            <!-- Watch Ads MonetaG Task Row Block Elements -->
-            <div class="task-row">
-                <div class="task-info">
-                    <h4>Watch Ads - 8 Points</h4>
-                    <p id="ads-counter-text">0/15 today</p>
-                </div>
-                <button class="btn-task" id="watchAdsBtn" onclick="watchAdsTask(this)">Watch</button>
-            </div>
-
-            <!-- YouTube Video Task -->
-            <div class="task-row">
-                <div class="task-info">
-                    <h4>Watch YouTube - 10 Points</h4>
-                    <p id="ytCount">0/5 today</p>
-                </div>
-                <button class="btn-task" id="youtubeTaskBtn" onclick="watchYoutubeTask(this, YOUTUBE_TASK_URL)">Watch</button>
-            </div>
-
-            <!-- Spin and Win Elements Row Block -->
-            <div class="task-row">
-                <div class="task-info">
-                    <h4>Spin & Win - 0-5 Points</h4>
-                    <p id="spin-counter-text">0/1 today</p>
-                </div>
-                <button class="btn-task" id="spinBtn" onclick="openSpinWheel()">Spin</button>
-            </div>
-
-            <!-- Quiz Games Module Section Elements Row Block -->
-            <div class="task-row">
-                <div class="task-info">
-                    <h4>Quick Quiz - 10 Points</h4>
-                    <p>0/3 today</p>
-                </div>
-                <button class="btn-task" onclick="alert('Loading Academic Quiz Engine...')">Play</button>
-            </div>
-        </section>
-
-        <div class="system-ad-space">
-            <p>Advertisement — Please wait...</p>
-        </div>
-    </main>
-
-
-    <!-- Spin & Win Wheel -->
-    <div class="modal-overlay" id="spinWheelModal">
-        <div class="wheel-modal-box">
-            <div class="wheel-title">🎡 Spin & Win</div>
-            <div class="wheel-subtitle">One free spin every day • Rewards: 5, 0, 2, 4, 1, 3</div>
-            <div class="wheel-wrap">
-                <div class="wheel-pointer"></div>
-                <div class="lucky-wheel" id="luckyWheel">
-                    <div class="wheel-labels" aria-hidden="true">
-                        <div class="wheel-label" style="transform:rotate(0deg) translateX(-50%);"><span>5</span></div>
-                        <div class="wheel-label" style="transform:rotate(60deg) translateX(-50%);"><span>0</span></div>
-                        <div class="wheel-label" style="transform:rotate(120deg) translateX(-50%);"><span>2</span></div>
-                        <div class="wheel-label" style="transform:rotate(180deg) translateX(-50%);"><span>4</span></div>
-                        <div class="wheel-label" style="transform:rotate(240deg) translateX(-50%);"><span>1</span></div>
-                        <div class="wheel-label" style="transform:rotate(300deg) translateX(-50%);"><span>3</span></div>
-                    </div>
-                    <div class="wheel-center"></div>
-                </div>
-            </div>
-            <button class="wheel-spin-btn" id="realSpinButton" onclick="spinWheel()">SPIN NOW 🎯</button>
-            <div class="wheel-result" id="wheelResult"></div>
-            <button class="modal-close-btn" onclick="closeModal('spinWheelModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="withdrawModal">
-        <div class="modal-box">
-            <h3>Request Withdraw</h3>
-            <p style="font-size: 0.85rem; color:#7f8c8d; margin-bottom: 1rem;">Min Withdraw: 5000 Points = 5000 MWK<br>Rate: 1 Point = 1 MWK</p>
-            <form onsubmit="submitWithdrawForm(event)">
-                <div class="form-group">
-                    <label>Payment Method</label>
-                    <select class="form-control" id="withdrawMethod">
-                        <option value="Airtel Money">Airtel Money</option>
-                        <option value="TNM Mpamba">TNM Mpamba</option>
-                        <option value="National Bank Account">National Bank Account</option>
-                        <option value="Binance USDT">Binance USDT</option>
-                        <option value="PayPal USD">PayPal USD</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Account Number / Phone / Wallet Address</label>
-                    <input type="text" class="form-control" required placeholder="0888... / 0999... / Email">
-                </div>
-                <div class="form-group">
-                    <label>Points Amount</label>
-                    <input type="number" class="form-control" min="5000" step="1" required placeholder="5000">
-                </div>
-                <button type="submit" class="btn-task" style="width: 100%;">Submit Request</button>
-            </form>
-            <button class="modal-close-btn" onclick="closeModal('withdrawModal')">Cancel</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="historyModal">
-        <div class="modal-box" style="max-width: 600px;">
-            <h3>My Withdrawal History</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Method</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="historyTableBody">
-                    <tr><td colspan="4" style="color:#7f8c8d;text-align:center;">No withdrawal requests yet.</td></tr>
-                </tbody>
-            </table>
-            <button class="modal-close-btn" onclick="closeModal('historyModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="leaderboardModal">
-        <div class="modal-box">
-            <h3>🏆 Top 10 Earners</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>User</th>
-                        <th>Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td>chis***@gmail.com</td><td>42,150 pts</td></tr>
-                    <tr><td>2</td><td>band***@yahoo.com</td><td>38,400 pts</td></tr>
-                    <tr><td>3</td><td>phir***@gmail.com</td><td>31,200 pts</td></tr>
-                </tbody>
-            </table>
-            <button class="modal-close-btn" onclick="closeModal('leaderboardModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="adminAuthModal">
-        <div class="modal-box">
-            <h3>Admin Login 🔐</h3>
-            <p style="margin-bottom:1rem; font-size:0.9rem;">Enter admin authorization passcode keys:</p>
-            <div class="form-group">
-                <input type="password" id="adminPassField" class="form-control" placeholder="••••••••">
-            </div>
-            <button class="btn-task" style="width:100%; background-color:#34495e;" onclick="accessAdminDashboard()">Enter</button>
-            <button class="modal-close-btn" onclick="closeModal('adminAuthModal')">Cancel</button>
-        </div>
-    </div>
-
-
-    <div class="modal-overlay" id="adminPanelDashboardModal">
-        <div class="admin-page-modal">
-            <h2>Admin Panel 🔐</h2>
-
-            <button class="admin-back-btn" onclick="closeModal('adminPanelDashboardModal')">
-                Back to Dashboard
-            </button>
-
-            <div class="admin-tabs">
-                <button id="adminUsersTab" class="admin-tab active" onclick="showAdminTab('users')">
-                    Users
-                </button>
-                <button id="adminWithdrawalsTab" class="admin-tab" onclick="showAdminTab('withdrawals')">
-                    All Withdrawals
-                </button>
-            </div>
-
-            <div id="adminUsersPanel" class="admin-users-panel active">
-                <h3 class="admin-section-title">All Users</h3>
-
-                <div class="admin-table-wrap">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th>Balance</th>
-                                <th>Admin</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminUsersTableBody">
-                            <tr>
-                                <td>kellybkenani@gmail.com</td>
-                                <td>135 pts</td>
-                                <td>Yes</td>
-                                <td>
-                                    <button class="admin-add-btn" onclick="adminAddPoints(this, 100)">+100</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>kapolomemory@gmail.com</td>
-                                <td>0 pts</td>
-                                <td>No</td>
-                                <td>
-                                    <button class="admin-add-btn" onclick="adminAddPoints(this, 100)">+100</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>kellybkenani@gmail.com</td>
-                                <td>0 pts</td>
-                                <td>No</td>
-                                <td>
-                                    <button class="admin-add-btn" onclick="adminAddPoints(this, 100)">+100</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>test@gmail.com</td>
-                                <td>0 pts</td>
-                                <td>No</td>
-                                <td>
-                                    <button class="admin-add-btn" onclick="adminAddPoints(this, 100)">+100</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="admin-mobile-note">Approve or cancel pending payments. Attach the payment screenshot after sending money; it will appear in the user's My Withdrawals history.</p>
-            </div>
-
-            <div id="adminWithdrawalsPanel" class="admin-withdraw-panel">
-                <h3 class="admin-section-title">All Withdrawals</h3>
-
-                <div class="admin-table-wrap">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th>Method</th>
-                                <th>Points</th>
-                                <th>Status</th>
-                                <th>Proof Screenshot</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminWithdrawalsTableBody">
-                            <tr><td colspan="6" style="text-align:center;color:#666;">No withdrawal requests.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div style="margin-top:22px; border-top:1px solid #ddd; padding-top:18px;">
-                <h3 class="admin-section-title" style="font-size:1.15rem;">System Announcement</h3>
-                <div class="form-group">
-                    <textarea id="newAnnouncementText" class="form-control" rows="2"
-                        placeholder="Write an announcement..."></textarea>
-                </div>
-                <div style="display:flex;gap:8px;">
-                    <button class="admin-back-btn" style="margin:0;flex:1;" onclick="updateSystemAnnouncement()">
-                        Post
-                    </button>
-                    <button class="admin-back-btn" style="margin:0;flex:1;background:#e74c3c;" onclick="clearSystemAnnouncement()">
-                        Clear
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        // --- 1. CONFIGURATION & STATE ---
-        // Monetag Direct Link supplied for the Watch Ads task.
-        const DIRECT_LINKS = ["https://omg10.com/4/11749878"];
-        let linkIndex = 0;
-        const adIntervals = {};
-
-        // Change this to the YouTube video you want users to watch.
-        const YOUTUBE_TASK_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-
-        const STORAGE_KEY = "earnKwaChaState_v6";
-        const WITHDRAWALS_KEY = "earnKwaChaWithdrawals_v1";
-        const MAX_DAILY_ADS_LIMIT = 15;
-        const YOUTUBE_DAILY_LIMIT = 10;
-        const AD_REWARD_POINTS = 8;
-        const YOUTUBE_REWARD_POINTS = 10;
-        const SPIN_REWARDS = [5, 0, 2, 4, 1, 3];
-
-        let currentBalancePoints = 0;
-        let dailyAdsWatchedCount = 0;
-        let dailySpinUsed = false;
-        let watchedVideosToday = [];
-        let stateDate = new Date().toISOString().slice(0, 10);
-        let currentUserData = null;
-        let isUserLoggedInMock = false;
-        let wheelRotation = 0;
-        let selectedWheelReward = null;
-
-        function syncCurrentUserData() {
-            currentUserData = {
-                points: currentBalancePoints,
-                adsWatchedToday: dailyAdsWatchedCount,
-                watchedVideosToday: Array.isArray(watchedVideosToday) ? watchedVideosToday : []
-            };
-        }
-
-        function loadState() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-                const today = new Date().toISOString().slice(0, 10);
-                if (saved && saved.date === today) {
-                    currentBalancePoints = Number(saved.balance) || 0;
-                    dailyAdsWatchedCount = Number(saved.adsWatched) || 0;
-                    dailySpinUsed = !!saved.spinUsed;
-                    watchedVideosToday = Array.isArray(saved.watchedVideosToday) ? saved.watchedVideosToday : [];
-                    stateDate = today;
-                } else {
-                    currentBalancePoints = saved ? (Number(saved.balance) || 0) : 0;
-                    dailyAdsWatchedCount = 0;
-                    dailySpinUsed = false;
-                    watchedVideosToday = [];
-                    stateDate = today;
-                }
-            } catch (e) {
-                console.warn("Could not load saved account state.", e);
-                currentBalancePoints = 0;
-                dailyAdsWatchedCount = 0;
-                dailySpinUsed = false;
-                watchedVideosToday = [];
-            }
-            syncCurrentUserData();
-            updateBalanceUI();
-            updateTaskUI();
-            loadLimits();
-            saveState();
-            renderUserHistory();
-            renderAdminWithdrawals();
-        }
-
-        function saveState() {
-            syncCurrentUserData();
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                balance: currentBalancePoints,
-                adsWatched: dailyAdsWatchedCount,
-                spinUsed: dailySpinUsed,
-                watchedVideosToday: watchedVideosToday,
-                date: stateDate
-            }));
-        }
-
-        // ========== LOAD COUNTERS ==========
-        function loadLimits() {
-            if (!currentUserData) return;
-            const adsCount = document.getElementById("adsCount");
-            const ytCount = document.getElementById("ytCount");
-            if (adsCount) adsCount.innerText = `${currentUserData.adsWatchedToday || 0}/${MAX_DAILY_ADS_LIMIT}`;
-            if (ytCount) ytCount.innerText = `${(currentUserData.watchedVideosToday || []).length}/${YOUTUBE_DAILY_LIMIT} today`;
-        }
-
-        function getWithdrawals() {
-            try { return JSON.parse(localStorage.getItem(WITHDRAWALS_KEY) || "[]"); }
-            catch (e) { return []; }
-        }
-
-        function saveWithdrawals(list) {
-            localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(list));
-        }
-
-        function renderUserHistory() {
-            const body = document.getElementById("historyTableBody");
-            if (!body) return;
-            const list = getWithdrawals();
-            if (!list.length) {
-                body.innerHTML = '<tr><td colspan="4" style="color:#7f8c8d;text-align:center;">No withdrawal requests yet.</td></tr>';
-                return;
-            }
-            body.innerHTML = list.slice().reverse().map(w => {
-                const statusColor = w.status === "Paid" ? "#28a745" : (w.status === "Cancelled" ? "#e74c3c" : "#f39c12");
-                const proof = w.proof ? `<a href="${w.proof}" target="_blank" rel="noopener"><img class="proof-thumb" src="${w.proof}" alt="Payment proof"></a>` : "";
-                return `<tr>
-                    <td>${escapeHtml(w.date)}</td>
-                    <td>${Number(w.points).toLocaleString()} MWK</td>
-                    <td>${escapeHtml(w.method)}</td>
-                    <td style="color:${statusColor};font-weight:700;">${escapeHtml(w.status)}${proof}</td>
-                </tr>`;
-            }).join("");
-        }
-
-        function escapeHtml(value) {
-            return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-        }
-
-        function renderAdminWithdrawals() {
-            const body = document.getElementById("adminWithdrawalsTableBody");
-            if (!body) return;
-            const list = getWithdrawals();
-            if (!list.length) {
-                body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#666;">No withdrawal requests.</td></tr>';
-                return;
-            }
-            body.innerHTML = list.slice().reverse().map(w => {
-                const proof = w.proof
-                    ? `<a href="${w.proof}" target="_blank" rel="noopener"><img class="proof-thumb" src="${w.proof}" alt="Proof"></a>`
-                    : `<input class="proof-input" type="file" accept="image/*" onchange="attachPaymentProof('${w.id}', this)">`;
-                let actions = "";
-                if (w.status === "Pending") {
-                    actions = `<div class="admin-action-row">
-                        <button class="admin-small-btn admin-approve" onclick="approveWithdrawal('${w.id}')">Approve / Paid</button>
-                        <button class="admin-small-btn admin-cancel" onclick="cancelWithdrawal('${w.id}')">Cancel</button>
-                    </div>`;
-                } else if (w.status === "Paid") {
-                    actions = `<span style="color:#28a745;font-weight:700;">Payment completed</span>`;
-                } else {
-                    actions = `<span style="color:#e74c3c;font-weight:700;">Cancelled</span>`;
-                }
-                return `<tr>
-                    <td>${escapeHtml(w.email || "Current User")}</td>
-                    <td>${escapeHtml(w.method)}</td>
-                    <td>${Number(w.points).toLocaleString()} pts</td>
-                    <td style="font-weight:700;">${escapeHtml(w.status)}</td>
-                    <td>${proof}</td>
-                    <td>${actions}</td>
-                </tr>`;
-            }).join("");
-        }
-
-        function approveWithdrawal(id) {
-            const list = getWithdrawals();
-            const w = list.find(x => x.id === id);
-            if (!w) return;
-            if (w.status !== "Pending") return;
-            w.status = "Paid";
-            w.paidAt = new Date().toLocaleString();
-            saveWithdrawals(list);
-            renderAdminWithdrawals();
-            renderUserHistory();
-            alert("Payment approved. If a proof screenshot is attached, the user can now see it in My Withdrawals.");
-        }
-
-        function cancelWithdrawal(id) {
-            const list = getWithdrawals();
-            const w = list.find(x => x.id === id);
-            if (!w || w.status !== "Pending") return;
-            w.status = "Cancelled";
-            // Return the points when an admin cancels a pending withdrawal.
-            currentBalancePoints += Number(w.points) || 0;
-            updateBalanceUI();
-            saveState();
-            saveWithdrawals(list);
-            renderAdminWithdrawals();
-            renderUserHistory();
-            alert("Withdrawal cancelled and the points have been returned to the user's balance.");
-        }
-
-        function attachPaymentProof(id, input) {
-            const file = input && input.files ? input.files[0] : null;
-            if (!file) return;
-            if (!file.type.startsWith("image/")) {
-                alert("Please choose an image screenshot.");
-                input.value = "";
-                return;
-            }
-            if (file.size > 2 * 1024 * 1024) {
-                alert("Please use a screenshot smaller than 2 MB.");
-                input.value = "";
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = function() {
-                const list = getWithdrawals();
-                const w = list.find(x => x.id === id);
-                if (!w) return;
-                w.proof = reader.result;
-                w.proofName = file.name;
-                saveWithdrawals(list);
-                renderAdminWithdrawals();
-                renderUserHistory();
-                alert("Payment screenshot attached. The user can view it in My Withdrawals.");
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function updateBalanceUI() {
-            document.getElementById('userBalance').innerText =
-                currentBalancePoints.toLocaleString() + " Points";
-        }
-
-        function updateTaskUI() {
-            const adsCounter = document.getElementById('ads-counter-text');
-            const adsButton = document.getElementById('watchAdsBtn');
-            if (adsCounter) adsCounter.innerText = `${dailyAdsWatchedCount}/${MAX_DAILY_ADS_LIMIT} today`;
-            if (adsButton && !adsButton.dataset.busy) {
-                adsButton.disabled = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT;
-                adsButton.innerText = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT ? "Done" : "Watch";
-            }
-
-            const spinCounter = document.getElementById('spin-counter-text');
-            const spinBtn = document.getElementById('spinBtn');
-            if (spinCounter) spinCounter.innerText = dailySpinUsed ? "1/1 today" : "0/1 today";
-            if (spinBtn) {
-                spinBtn.disabled = dailySpinUsed;
-                spinBtn.innerText = dailySpinUsed ? "Done" : "Spin";
-            }
-
-            const ytCounter = document.getElementById('ytCount');
-            const ytButton = document.getElementById('youtubeTaskBtn');
-            const ytWatched = watchedVideosToday.length;
-            if (ytCounter) ytCounter.innerText = `${ytWatched}/${YOUTUBE_DAILY_LIMIT} today`;
-            if (ytButton && !ytButton.dataset.busy) {
-                ytButton.disabled = ytWatched >= YOUTUBE_DAILY_LIMIT;
-                ytButton.innerText = ytWatched >= YOUTUBE_DAILY_LIMIT ? "Done" : "Watch";
-            }
-            loadLimits();
-        }
-
-        // --- 2. THEME AND INTERFACE INITIALIZATION CONFIG ---
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const themeBtn = document.querySelector('.theme-toggle');
-            themeBtn.innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-        }
-
-        function closeAnnouncement() {
-            document.getElementById('announcementBox').style.display = 'none';
-        }
-
-        function copyReferralLink() {
-            const copyText = document.getElementById("refLink");
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(copyText.value);
-            alert("Referral Link copied successfully to clipboard!");
-        }
-
-        // --- 3. MODALS MANAGEMENT VISIBILITY INTERACTIVES FUNCTIONALITIES ---
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        // --- 4. MONETAG ADS + 10-SECOND TIMER ---
-        function openAd() {
-            const url = DIRECT_LINKS[linkIndex % DIRECT_LINKS.length];
-            linkIndex = (linkIndex + 1) % DIRECT_LINKS.length;
-            // This call is made directly from the user's click flow, which gives mobile browsers
-            // the best chance of allowing the new tab. Popup blockers can still prevent a new tab.
-            const win = window.open(url, '_blank', 'noopener,noreferrer');
-            if (!win) {
-                alert("The ad tab was blocked by your browser. Please allow pop-ups for this site and try again.");
-            }
-            return win;
-        }
-
-        function openAdWindowInstance() {
-            return openAd();
-        }
-
-        function watchAdsTask(btnElement) {
-            if (!btnElement || btnElement.dataset.busy === '1') return;
-            if (dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT) {
-                alert(`You reached ${MAX_DAILY_ADS_LIMIT}/${MAX_DAILY_ADS_LIMIT} ads today.`);
-                return;
-            }
-
-            btnElement.dataset.busy = '1';
-            btnElement.disabled = true;
-            let time = 10;
-            btnElement.innerText = `Wait ${time}s...`;
-
-            openAd();
-
-            const interval = setInterval(() => {
-                time--;
-                btnElement.innerText = time > 0 ? `Wait ${time}s...` : 'Done ✓';
-                if (time <= 0) {
-                    clearInterval(interval);
-                    dailyAdsWatchedCount++;
-                    addPoints(AD_REWARD_POINTS);
-                    saveState();
-                    btnElement.dataset.busy = '0';
-                    btnElement.disabled = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT;
-                    btnElement.innerText = dailyAdsWatchedCount >= MAX_DAILY_ADS_LIMIT ? 'Done' : 'Watch';
-                    updateTaskUI();
-                    alert(`You earned ${AD_REWARD_POINTS} points!`);
-                }
-            }, 1000);
-            adIntervals['ads'] = interval;
-        }
-
-        // ========== YOUTUBE TASK ==========
-        function watchYoutubeTask(btn, videoUrl) {
-            if (!btn || btn.dataset.busy === '1') return;
-            videoUrl = videoUrl || YOUTUBE_TASK_URL;
-
-            if (watchedVideosToday.length >= YOUTUBE_DAILY_LIMIT) {
-                alert(`You reached ${YOUTUBE_DAILY_LIMIT}/${YOUTUBE_DAILY_LIMIT} YouTube tasks today`);
-                return;
-            }
-
-            const btnId = 'yt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
-            btn.dataset.busy = '1';
-            btn.dataset.btnid = btnId;
-            btn.disabled = true;
-
-            let time = 10;
-            btn.innerText = `Wait ${time}s...`;
-
-            // Open YouTube and the same Monetag Direct Link used by Watch Ads.
-            // Pop-up blocking can prevent either tab from opening.
-            const ytWindow = window.open(videoUrl, '_blank', 'noopener,noreferrer');
-            const adWindow = openAd();
-
-            if (!ytWindow) {
-                alert("YouTube was blocked by your browser. Please allow pop-ups for this site.");
-            } else if (!adWindow) {
-                alert("The ad tab was blocked by your browser. Please allow pop-ups for this site.");
-            }
-
-            const interval = setInterval(() => {
-                time--;
-                if (time > 0) {
-                    btn.innerText = `Wait ${time}s...`;
-                } else {
-                    clearInterval(interval);
-                    delete adIntervals[btnId];
-                    btn.disabled = false;
-                    btn.dataset.busy = '0';
-                    btn.innerHTML = `Done! <button type="button" onclick="finishYoutube('${btnId}', '${escapeJsString(videoUrl)}')" style="margin-left:5px;background:green;color:white;border:none;border-radius:50%;width:24px;height:24px;font-size:12px;cursor:pointer;font-weight:bold;vertical-align:middle;">✓</button>`;
-                }
-            }, 1000);
-
-            adIntervals[btnId] = interval;
-        }
-
-        function escapeJsString(value) {
-            return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, ' ');
-        }
-
-        function finishYoutube(btnId, videoUrl) {
-            const btn = document.querySelector(`[data-btnid="${CSS.escape(btnId)}"]`);
-            if (!btn || btn.dataset.finished === '1') return;
-            if (watchedVideosToday.length >= YOUTUBE_DAILY_LIMIT) {
-                alert(`You reached ${YOUTUBE_DAILY_LIMIT}/${YOUTUBE_DAILY_LIMIT} YouTube tasks today`);
-                return;
-            }
-
-            btn.dataset.finished = '1';
-            btn.dataset.busy = '0';
-            btn.disabled = true;
-            btn.innerText = "Watched";
-
-            // Count each completed, user-initiated task separately.
-            // The same configured YouTube task can therefore be completed up to the daily limit.
-            watchedVideosToday.push({ url: videoUrl, completedAt: Date.now() });
-            addPoints(YOUTUBE_REWARD_POINTS);
-            saveState();
-            updateTaskUI();
-            alert(`You earned ${YOUTUBE_REWARD_POINTS} points!`);
-        }
-
-        // --- 5. SYSTEM TRANSACTION BALANCES POINT MANIPULATION CAPABILITIES ---
-        function addPoints(pointsAmountValue) {
-            const amount = Number(pointsAmountValue) || 0;
-            currentBalancePoints = Math.max(0, currentBalancePoints + amount);
-            syncCurrentUserData();
-            const balanceEl = document.getElementById('userBalance');
-            if (balanceEl) balanceEl.innerText = currentBalancePoints.toLocaleString() + " Points";
-            saveState();
-        }
-
-        // --- 6. REAL LUCKY SPIN WHEEL ---
-        function openSpinWheel() {
-            if (dailySpinUsed) {
-                alert("You have already used your Spin & Win for today.");
-                return;
-            }
-            selectedWheelReward = null;
-            document.getElementById("wheelResult").innerText = "";
-            document.getElementById("realSpinButton").disabled = false;
-            openModal("spinWheelModal");
-        }
-
-        function spinWheel() {
-            if (dailySpinUsed) return;
-
-            const spinButton = document.getElementById("realSpinButton");
-            const wheel = document.getElementById("luckyWheel");
-            const result = document.getElementById("wheelResult");
-            spinButton.disabled = true;
-            result.innerText = "Spinning...";
-
-            const rewards = SPIN_REWARDS;
-            const index = Math.floor(Math.random() * rewards.length);
-            selectedWheelReward = rewards[index];
-
-            // Six equal sectors. The pointer is at 12 o'clock.
-            // Sector centers are 30, 90, 150, 210, 270, 330 degrees
-            // in the wheel's unrotated coordinate system.
-            const sectorCenter = 30 + index * 60;
-            const targetAngle = 360 - sectorCenter;
-            const extraTurns = 6 + Math.floor(Math.random() * 3);
-            wheelRotation += extraTurns * 360 + targetAngle;
-            wheel.style.transform = `rotate(${wheelRotation}deg)`;
-
-            setTimeout(() => {
-                dailySpinUsed = true;
-                addPoints(selectedWheelReward);
-                saveState();
-                updateTaskUI();
-                result.innerText = `🎉 You won ${selectedWheelReward} Points!`;
-                alert(`🎉 You won ${selectedWheelReward} Points! Your balance has been updated automatically.`);
-            }, 4100);
-        }
-
-        // Backwards-compatible handler for any old button reference.
-        function spinAndWinTask(btnElement) {
-            openSpinWheel();
-        }
-
-        // --- 7. USER WITHDRAW SYSTEM FORMS CAPABILITIES SIMULATION PIPELINE ---
-        function submitWithdrawForm(eventInstance) {
-            eventInstance.preventDefault();
-
-            const amountInput = eventInstance.target.querySelector('input[type="number"]');
-            const requestedPoints = Number(amountInput ? amountInput.value : 0);
-
-            if (!Number.isFinite(requestedPoints) || requestedPoints < 5000) {
-                alert("Minimum withdrawal is 5,000 Points.");
-                return;
-            }
-
-            if (requestedPoints > currentBalancePoints) {
-                alert(`Insufficient balance. You have ${currentBalancePoints.toLocaleString()} Points available.`);
-                return;
-            }
-
-            // Deduct the requested points immediately and persist the new balance.
-            addPoints(-requestedPoints);
-
-            alert(
-                `Withdrawal request submitted for ${requestedPoints.toLocaleString()} Points.\n` +
-                `Your new balance is ${currentBalancePoints.toLocaleString()} Points.`
-            );
-            eventInstance.target.reset();
-            closeModal('withdrawModal');
-        }
-
-        // --- 8. ADMIN SECURITY AUTHENTICATION PORTALS PANEL CHECK ROUTINES ---
-        function accessAdminDashboard() {
-            const enteredPasscodeValue = document.getElementById('adminPassField').value;
-            // Standard baseline placeholder security key check validation matching parameters
-            if (enteredPasscodeValue === "admin123" || enteredPasscodeValue === "root") {
-                closeModal('adminAuthModal');
-                document.getElementById('adminPassField').value = ""; // flush input field values immediately
-                showAdminTab('users');
-                renderAdminWithdrawals();
-                renderUserHistory();
-                openModal('adminPanelDashboardModal');
-            } else {
-                alert("Security Authorization Exception: Access keys evaluation invalid. Key matching matrix structural loop verification failed.");
-            }
-        }
-
-
-        function showAdminTab(tabName) {
-            const usersPanel = document.getElementById('adminUsersPanel');
-            const withdrawalsPanel = document.getElementById('adminWithdrawalsPanel');
-            const usersTab = document.getElementById('adminUsersTab');
-            const withdrawalsTab = document.getElementById('adminWithdrawalsTab');
-
-            if (tabName === 'withdrawals') {
-                usersPanel.classList.remove('active');
-                withdrawalsPanel.classList.add('active');
-                usersTab.classList.remove('active');
-                withdrawalsTab.classList.add('active');
-            } else {
-                withdrawalsPanel.classList.remove('active');
-                usersPanel.classList.add('active');
-                withdrawalsTab.classList.remove('active');
-                usersTab.classList.add('active');
-            }
-        }
-
-        function adminAddPoints(buttonElement, amount) {
-            const row = buttonElement.closest('tr');
-            const balanceCell = row ? row.cells[1] : null;
-            if (!balanceCell) return;
-
-            const current = parseInt(balanceCell.textContent.replace(/[^\d-]/g, ''), 10) || 0;
-            balanceCell.textContent = (current + amount).toLocaleString() + ' pts';
-            buttonElement.textContent = 'Added +' + amount;
-            setTimeout(() => {
-                buttonElement.textContent = '+' + amount;
-            }, 900);
-        }
-
-        function markWithdrawalPaid(buttonElement) {
-            const row = buttonElement.closest('tr');
-            if (!row) return;
-
-            const statusCell = row.cells[3];
-            if (statusCell) {
-                statusCell.textContent = 'Paid';
-                statusCell.style.fontWeight = '700';
-                statusCell.style.color = '#28a745';
-            }
-            buttonElement.textContent = 'Paid';
-            buttonElement.disabled = true;
-            buttonElement.style.opacity = '.7';
-        }
-
-        function updateSystemAnnouncement() {
-            const messagePayloadTextValue = document.getElementById('newAnnouncementText').value;
-            if (messagePayloadTextValue.trim() === "") return;
-            
-            const bannerElementNode = document.getElementById('announcementBox');
-            bannerElementNode.style.display = 'flex';
-            bannerElementNode.querySelector('span').innerText = "📢 " + messagePayloadTextValue;
-            alert("System status announcements notification broadcast values modified successfully.");
-        }
-
-        function clearSystemAnnouncement() {
-            document.getElementById('announcementBox').style.display = 'none';
-            document.getElementById('newAnnouncementText').value = "";
-        }
-
-        function toggleAuthMock() {
-            isUserLoggedInMock = !isUserLoggedInMock;
-            const authButtonRef = document.getElementById('authBtn');
-            if (isUserLoggedInMock) {
-                authButtonRef.innerText = "Logout";
-                authButtonRef.style.backgroundColor = "#e74c3c";
-                addPoints(50); // Add the welcome signup points instantly
-                alert("Sign Up complete! +50 welcome bonus points added to your dashboard profile tracking values initialization layer.");
-            } else {
-                authButtonRef.innerText = "Login";
-                authButtonRef.style.backgroundColor = "var(--primary-color)";
-                currentBalancePoints = 0;
-                dailyAdsWatchedCount = 0;
-                dailySpinUsed = false;
-                watchedVideosToday = [];
-                updateBalanceUI();
-                updateTaskUI();
-                saveState();
-                alert("Session reset complete. Safely logged out of profile ledger pipeline.");
-            }
-        }
-
-        // Admin/testing helper: resets daily task counters on this browser.
-        function resetMyLimits() {
-            const pass = prompt("Enter admin password to reset today's limits:");
-            if (pass !== "admin123" && pass !== "root") {
-                alert("Invalid admin password.");
-                return;
-            }
-            dailyAdsWatchedCount = 0;
-            dailySpinUsed = false;
-            watchedVideosToday = [];
-            stateDate = new Date().toISOString().slice(0, 10);
-            saveState();
-            updateTaskUI();
-            alert("Daily limits reset successfully.");
-        }
-
-        // --- 9. GLOBAL COUNTDOWN TIMER SYSTEM STRUCTURAL INITIALIZATION MOCK LOOP ---
-        function startSystemClockResetSimulation() {
-            let totalSecondsResetPeriodDurationValue = 24 * 60 * 60; // 24 Hours tracking format model definitions structure
-            const clockTargetSpanNode = document.getElementById('countdownTimer');
-            
-            setInterval(() => {
-                const today = new Date().toISOString().slice(0, 10);
-                if (today !== stateDate) {
-                    stateDate = today;
-                    dailyAdsWatchedCount = 0;
-                    dailySpinUsed = false;
-                    watchedVideosToday = [];
-                    updateTaskUI();
-                    saveState();
-                }
-
-                totalSecondsResetPeriodDurationValue--;
-                if (totalSecondsResetPeriodDurationValue <= 0) {
-                    totalSecondsResetPeriodDurationValue = 24 * 60 * 60; // loop reset automation parameters
-                }
-                const trackingHoursRemainingValue = Math.floor(totalSecondsResetPeriodDurationValue / 3600);
-                const trackingMinutesRemainingValue = Math.floor((totalSecondsResetPeriodDurationValue % 3600) / 60);
-                const trackingSecondsRemainingValue = totalSecondsResetPeriodDurationValue % 60;
-                
-                clockTargetSpanNode.innerText = 
-                    String(trackingHoursRemainingValue).padStart(2, '0') + ":" + 
-                    String(trackingMinutesRemainingValue).padStart(2, '0') + ":" + 
-                    String(trackingSecondsRemainingValue).padStart(2, '0');
-            }, 1000);
-        }
-
-        // Run baseline simulation loop threads upon file rendering completions metrics execution window events hooks
-        window.onload = function() {
-            loadState();
-            startSystemClockResetSimulation();
-            renderUserHistory();
-            renderAdminWithdrawals();
-        };
-    </script>
+<header><nav><div class="logo">EarnKwaCha 💰</div><div class="nav-controls"><button class="theme-toggle" onclick="toggleTheme()">🌙</button><button class="btn-auth" id="authBtn" onclick="toggleAuthMock()">Login</button></div></nav></header>
+<main class="container">
+<div class="announcement-banner" id="announcementBox"><span>📢 Welcome to EarnKwaCha! Watch ads daily and withdraw directly via Airtel Money or Mpamba!</span><button class="close-banner" onclick="closeAnnouncement()">×</button></div>
+<section class="dashboard-card"><h3>Your Balance</h3><div class="balance-amount" id="userBalance">0 Points</div><div>Resets in: <span id="countdownTimer">24:00:00</span></div><div class="action-grid"><button class="btn-action" onclick="openModal('withdrawModal')">Request Withdraw</button><button class="btn-action" onclick="openModal('historyModal')">My Withdrawals</button><button class="btn-action" onclick="openModal('leaderboardModal')">🏆 Leaderboard</button><button class="btn-action btn-admin-nav" onclick="openModal('adminAuthModal')">Admin Panel 🔐</button></div></section>
+<section class="referral-box"><div>💰 Referral Program L1 + L2</div><div style="font-size:0.85rem;color:#7f8c8d;margin-bottom:1rem">Level 1: 10 Points Instant | Level 2: 5 Points After 1 Ad - Max 20</div><div class="share-row"><input type="text" class="share-input" id="refLink" value="https://jayearnkwacha.com/ref?user=102938" readonly><button class="btn-task" onclick="copyReferralLink()">Copy Link</button></div></section>
+<section class="tasks-section"><h3>Available Tasks (Resets Daily)</h3>
+<div class="task-row"><div><h4>Watch Ads - 8 Points</h4><p id="ads-counter-text">0/15 today</p></div><button class="btn-task" id="watchAdsBtn" onclick="watchAdsTask(this)">Watch</button></div>
+<div class="task-row"><div><h4>Watch YouTube - 10 Points (10 Monetag Ads)</h4><p id="ytCount">0/5 today</p></div><button class="btn-task" id="youtubeTaskBtn" onclick="openYoutubeTask()">Watch</button></div>
+<div class="task-row"><div><h4>Spin & Win - 0-5 Points</h4><p id="spin-counter-text">0/1 today</p></div><button class="btn-task" id="spinBtn" onclick="openSpinWheel()">Spin</button></div>
+</section>
+</main>
+
+<!-- NEW YOUTUBE + 10 DIRECT LINKS MODAL -->
+<div class="modal-overlay" id="youtubeAdsModal">
+<div class="modal-box" style="max-width:650px">
+<h3>📺 Watch YouTube + 10 Monetag Ads</h3>
+<p style="font-size:0.85rem;color:#777;margin:8px 0">This task gives you 10 Monetag views. Each ad opens your Direct Link.</p>
+<div class="yt-video-wrap"><iframe id="ytIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<div style="background:#f1f5f9;padding:12px;border-radius:10px"><div style="display:flex;justify-content:space-between;font-weight:800"><span id="ytAdsProgressText">Ads: 0/10</span><span id="ytAdsStatus">Ready</span></div><div class="progress-bar"><div class="progress-fill" id="ytProgressFill"></div></div></div>
+<button class="yt-ad-btn" id="ytAdButton" onclick="handleYoutubeAdClick()">▶ Watch Ad 1/10</button>
+<button class="btn-task" id="ytClaimBtn" style="width:100%;margin-top:10px;display:none;background:#2ecc71;padding:14px;font-size:1.1rem" onclick="claimYoutubeReward()">✅ Claim 10 Points</button>
+<button class="modal-close-btn" onclick="closeYoutubeTask()">Close</button>
+</div>
+</div>
+
+<!-- SPIN MODAL -->
+<div class="modal-overlay" id="spinWheelModal"><div class="wheel-modal-box"><div style="font-size:1.45rem;font-weight:800">🎡 Spin & Win</div><div class="wheel-wrap"><div class="wheel-pointer"></div><div class="lucky-wheel" id="luckyWheel"><div style="position:absolute;inset:0"><div class="wheel-label" style="transform:rotate(0deg) translateX(-50%)"><span>5</span></div><div class="wheel-label" style="transform:rotate(60deg) translateX(-50%)"><span>0</span></div><div class="wheel-label" style="transform:rotate(120deg) translateX(-50%)"><span>2</span></div><div class="wheel-label" style="transform:rotate(180deg) translateX(-50%)"><span>4</span></div><div class="wheel-label" style="transform:rotate(240deg) translateX(-50%)"><span>1</span></div><div class="wheel-label" style="transform:rotate(300deg) translateX(-50%)"><span>3</span></div></div><div class="wheel-center"></div></div></div><button class="wheel-spin-btn" id="realSpinButton" onclick="spinWheel()">SPIN NOW 🎯</button><div id="wheelResult" style="min-height:24px;margin-top:.75rem;font-weight:800"></div><button class="modal-close-btn" onclick="closeModal('spinWheelModal')">Close</button></div></div>
+
+<div class="modal-overlay" id="withdrawModal"><div class="modal-box"><h3>Request Withdraw</h3><form onsubmit="submitWithdrawForm(event)"><div class="form-group"><label>Payment Method</label><select class="form-control" id="withdrawMethod"><option>Airtel Money</option><option>TNM Mpamba</option></select></div><div class="form-group"><input type="text" class="form-control" required placeholder="0888..."></div><div class="form-group"><input type="number" class="form-control" min="5000" required placeholder="5000"></div><button type="submit" class="btn-task" style="width:100%">Submit</button></form><button class="modal-close-btn" onclick="closeModal('withdrawModal')">Cancel</button></div></div>
+<div class="modal-overlay" id="historyModal"><div class="modal-box"><h3>My Withdrawal History</h3><table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead><tbody id="historyTableBody"></tbody></table><button class="modal-close-btn" onclick="closeModal('historyModal')">Close</button></div></div>
+<div class="modal-overlay" id="leaderboardModal"><div class="modal-box"><h3>🏆 Top 10 Earners</h3><table><tr><td>1</td><td>chis***@gmail.com</td><td>42,150 pts</td></tr></table><button class="modal-close-btn" onclick="closeModal('leaderboardModal')">Close</button></div></div>
+<div class="modal-overlay" id="adminAuthModal"><div class="modal-box"><h3>Admin Login 🔐</h3><input type="password" id="adminPassField" class="form-control" placeholder="••••••••"><button class="btn-task" style="width:100%;margin-top:10px;background:#34495e" onclick="accessAdminDashboard()">Enter</button><button class="modal-close-btn" onclick="closeModal('adminAuthModal')">Cancel</button></div></div>
+<div class="modal-overlay" id="adminPanelDashboardModal"><div class="admin-page-modal"><h2>Admin Panel 🔐</h2><button class="admin-back-btn" onclick="closeModal('adminPanelDashboardModal')">Back to Dashboard</button><div class="admin-tabs"><button id="adminUsersTab" class="admin-tab active" onclick="showAdminTab('users')">Users</button><button id="adminWithdrawalsTab" class="admin-tab" onclick="showAdminTab('withdrawals')">All Withdrawals</button></div><div id="adminUsersPanel"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Email</th><th>Balance</th><th>Action</th></tr></thead><tbody id="adminUsersTableBody"><tr><td>test@gmail.com</td><td>0 pts</td><td><button style="background:#28a745;color:#fff;border:0;padding:8px 12px;border-radius:6px">+100</button></td></tr></tbody></table></div></div><div id="adminWithdrawalsPanel" style="display:none"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Email</th><th>Method</th><th>Points</th><th>Status</th><th>Action</th></tr></thead><tbody id="adminWithdrawalsTableBody"><tr><td colspan="5" style="text-align:center">No withdrawal requests.</td></tr></tbody></table></div></div></div></div>
+
+<script>
+// ====== YOUR MONETAG DIRECT LINK - EDIT HERE ======
+const DIRECT_LINKS = ["https://omg10.com/4/11749878"]; // <-- PUT YOUR LINK HERE MA GEE
+let linkIndex = 0;
+const YOUTUBE_TASK_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+const YOUTUBE_ADS_REQUIRED = 10;
+const YOUTUBE_DAILY_LIMIT = 5;
+const MAX_DAILY_ADS_LIMIT = 15;
+
+let currentBalancePoints = 0;
+let dailyAdsWatchedCount = 0;
+let dailySpinUsed = false;
+let watchedVideosToday = [];
+let ytAdsWatchedSession = 0;
+let ytTimer = null;
+let wheelRotation = 0;
+
+const STORAGE_KEY = "earnKwaChaState_v6";
+const WITHDRAWALS_KEY = "earnKwaChaWithdrawals_v1";
+let stateDate = new Date().toISOString().slice(0, 10);
+
+function loadState(){
+ try{
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
+  const today = new Date().toISOString().slice(0,10);
+  if(saved && saved.date===today){
+   currentBalancePoints=Number(saved.balance)||0;
+   dailyAdsWatchedCount=Number(saved.adsWatched)||0;
+   dailySpinUsed=!!saved.spinUsed;
+   watchedVideosToday=Array.isArray(saved.watchedVideosToday)?saved.watchedVideosToday:[];
+   stateDate=today;
+  }
+ }catch(e){}
+ updateBalanceUI();updateTaskUI();
+}
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({balance:currentBalancePoints,adsWatched:dailyAdsWatchedCount,spinUsed:dailySpinUsed,watchedVideosToday,date:stateDate}))}
+function updateBalanceUI(){document.getElementById('userBalance').innerText=currentBalancePoints.toLocaleString()+" Points"}
+function updateTaskUI(){
+ document.getElementById('ads-counter-text').innerText=dailyAdsWatchedCount+"/"+MAX_DAILY_ADS_LIMIT+" today";
+ document.getElementById('ytCount').innerText=watchedVideosToday.length+"/"+YOUTUBE_DAILY_LIMIT+" today";
+ document.getElementById('spin-counter-text').innerText=dailySpinUsed?"1/1 today":"0/1 today";
+ document.getElementById('watchAdsBtn').disabled=dailyAdsWatchedCount>=MAX_DAILY_ADS_LIMIT;
+ document.getElementById('youtubeTaskBtn').disabled=watchedVideosToday.length>=YOUTUBE_DAILY_LIMIT;
+ document.getElementById('spinBtn').disabled=dailySpinUsed;
+}
+function openModal(id){document.getElementById(id).classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+function toggleTheme(){document.body.classList.toggle('dark-mode')}
+function closeAnnouncement(){document.getElementById('announcementBox').style.display='none'}
+function copyReferralLink(){navigator.clipboard.writeText(document.getElementById("refLink").value);alert("Copied!")}
+
+// ====== THIS IS WHERE YOUR MONETAG DIRECT LINK OPENS ======
+function openAd(){
+ const url = DIRECT_LINKS[linkIndex % DIRECT_LINKS.length];
+ linkIndex = (linkIndex+1)%DIRECT_LINKS.length;
+ const win = window.open(url,'_blank','noopener,noreferrer'); // <-- DIRECT LINK OPENS HERE!
+ if(!win) alert("Please allow pop-ups! Browser blocked Monetag ad.");
+ return win;
+}
+
+function watchAdsTask(btn){
+ if(dailyAdsWatchedCount>=MAX_DAILY_ADS_LIMIT) return;
+ btn.disabled=true;let t=10;btn.innerText=`Wait ${t}s...`;
+ openAd();
+ let interval=setInterval(()=>{
+  t--;btn.innerText=t>0?`Wait ${t}s...`:"Done";
+  if(t<=0){clearInterval(interval);dailyAdsWatchedCount++;currentBalancePoints+=8;saveState();updateBalanceUI();updateTaskUI();btn.innerText="Watch";alert("+8 Points!")}
+ },1000);
+}
+
+// ====== NEW YOUTUBE + 10 DIRECT LINKS SYSTEM ======
+function openYoutubeTask(){
+ if(watchedVideosToday.length>=YOUTUBE_DAILY_LIMIT){alert("Daily limit reached");return;}
+ ytAdsWatchedSession=0;
+ document.getElementById('ytIframe').src=YOUTUBE_EMBED_URL;
+ document.getElementById('ytAdsProgressText').innerText="Ads: 0/10";
+ document.getElementById('ytProgressFill').style.width="0%";
+ document.getElementById('ytAdsStatus').innerText="Watch video, then ads";
+ document.getElementById('ytAdButton').innerText="▶ Watch Ad 1/10";
+ document.getElementById('ytAdButton').style.display="block";
+ document.getElementById('ytAdButton').disabled=false;
+ document.getElementById('ytClaimBtn').style.display="none";
+ openModal('youtubeAdsModal');
+}
+function closeYoutubeTask(){
+ document.getElementById('ytIframe').src="";
+ closeModal('youtubeAdsModal');
+ if(ytTimer) clearInterval(ytTimer);
+}
+function handleYoutubeAdClick(){
+ // EACH CLICK OPENS YOUR MONETAG DIRECT LINK
+ openAd(); // <--- YOU GET 1 VIEW HERE
+
+ let btn=document.getElementById('ytAdButton');
+ let t=12;
+ btn.disabled=true;
+ btn.innerText=`⏳ Wait ${t}s... Ad ${ytAdsWatchedSession+1}/10`;
+ document.getElementById('ytAdsStatus').innerText=`Ad ${ytAdsWatchedSession+1} running`;
+
+ ytTimer=setInterval(()=>{
+  t--;btn.innerText=t>0?`⏳ Wait ${t}s... Ad ${ytAdsWatchedSession+1}/10`:"Done ✓";
+  if(t<=0){
+   clearInterval(ytTimer);
+   ytAdsWatchedSession++;
+   document.getElementById('ytAdsProgressText').innerText=`Ads: ${ytAdsWatchedSession}/10`;
+   document.getElementById('ytProgressFill').style.width=(ytAdsWatchedSession*10)+"%";
+   if(ytAdsWatchedSession>=YOUTUBE_ADS_REQUIRED){
+    btn.style.display="none";
+    document.getElementById('ytClaimBtn').style.display="block";
+    document.getElementById('ytAdsStatus').innerText="All 10 ads watched! Claim now!";
+   } else {
+    btn.disabled=false;
+    btn.innerText=`▶ Watch Ad ${ytAdsWatchedSession+1}/10`;
+    document.getElementById('ytAdsStatus').innerText=`Next: Ad ${ytAdsWatchedSession+1}`;
+   }
+  }
+ },1000);
+}
+function claimYoutubeReward(){
+ watchedVideosToday.push({url:YOUTUBE_TASK_URL,date:Date.now()});
+ currentBalancePoints+=10;
+ saveState();updateBalanceUI();updateTaskUI();closeYoutubeTask();
+ alert("🎉 You earned 10 Points! 10 Monetag views counted!");
+}
+
+function spinWheel(){
+ if(dailySpinUsed) return;
+ document.getElementById("realSpinButton").disabled=true;
+ const rewards=[5,0,2,4,1,3];
+ const index=Math.floor(Math.random()*rewards.length);
+ const reward=rewards[index];
+ const sectorCenter=30+index*60;
+ const targetAngle=360-sectorCenter;
+ wheelRotation+=2160+targetAngle;
+ document.getElementById("luckyWheel").style.transform=`rotate(${wheelRotation}deg)`;
+ setTimeout(()=>{dailySpinUsed=true;currentBalancePoints+=reward;saveState();updateBalanceUI();updateTaskUI();document.getElementById("wheelResult").innerText=`You won ${reward} Points!`;},4100);
+}
+function openSpinWheel(){if(dailySpinUsed){alert("Already used today");return;}openModal('spinWheelModal')}
+function accessAdminDashboard(){if(document.getElementById('adminPassField').value==="admin123"){closeModal('adminAuthModal');openModal('adminPanelDashboardModal')}else alert("Invalid passcode")}
+function showAdminTab(tab){document.getElementById('adminUsersPanel').style.display=tab==='users'?'block':'none';document.getElementById('adminWithdrawalsPanel').style.display=tab==='withdrawals'?'block':'none';document.getElementById('adminUsersTab').classList.toggle('active',tab==='users');document.getElementById('adminWithdrawalsTab').classList.toggle('active',tab==='withdrawals')}
+function submitWithdrawForm(e){e.preventDefault();alert("Withdraw submitted!");closeModal('withdrawModal')}
+function toggleAuthMock(){const b=document.getElementById('authBtn');if(b.innerText==="Login"){b.innerText="Logout";currentBalancePoints+=50}else{b.innerText="Login";currentBalancePoints=0}saveState();updateBalanceUI()}
+window.onload=()=>{loadState();renderUserHistory&&renderUserHistory()}
+function renderUserHistory(){}
+let totalSecondsResetPeriodDurationValue=86400;setInterval(()=>{totalSecondsResetPeriodDurationValue--;if(totalSecondsResetPeriodDurationValue<=0)totalSecondsResetPeriodDurationValue=86400;const h=Math.floor(totalSecondsResetPeriodDurationValue/3600),m=Math.floor((totalSecondsResetPeriodDurationValue%3600)/60),s=totalSecondsResetPeriodDurationValue%60;const el=document.getElementById('countdownTimer');if(el)el.innerText=String(h).padStart(2,'0')+":"+String(m).padStart(2,'0')+":"+String(s).padStart(2,'0')},1000);
+</script>
 </body>
 </html>
